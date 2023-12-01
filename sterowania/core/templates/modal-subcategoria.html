@@ -1,0 +1,64 @@
+
+<button class="btn btn-success newBtnElement" type="button" data-bs-toggle="modal" data-bs-target="#modalCotizacion-gral">Nueva Subcategoria</button>
+<div class="modal-cotizacion">
+  <div class="modal fade" id="modalCotizacion-gral" aria-hidden="true" aria-labelledby="modalCotizacion-gralLabel" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalCotizacion-gralLabel">Control <br/><strong>Subcategoria</strong></h5>
+          <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="content-form">
+            <form action="">
+              <div class="form-floating mb-3">
+                <input class="form-control form-control-lg" placeholder="Ingrese su nombre completo" type="text" name="nombre" aria-describedby="emailHelp"/>
+                <label class="form-label" for="nombreCliente">ID</label>
+              </div>
+              <div class="form-floating mb-3">
+                <input class="form-control form-control-lg" type="number" name="telefono" maxlength="2" aria-describedby="emailHelp" placeholder="Ingrese su télefono" id="exampleInputEmail1"/>
+                <label class="form-label" for="exampleInputEmail1">Nombre de la subcategoría</label>
+              </div>
+              <div class="form-floating mb-3">
+                <select class="form-control form-control-lg form-select" type="email" name="email" aria-describedby="emailHelp" placeholder="Email válido" id="exampleInputEmail1">
+                  <option>Semáforos</option>
+                  <option>Postes </option>
+                  <option>Señalamientos</option>
+                  <option>Complementos Viales</option>
+                  <option>Servicios de diseño</option>
+                </select>
+              </div>
+              <div class="form-floating mb-3">
+                <input class="form-control form-control-lg" type="text" name="nombre_empresa" aria-describedby="emailHelp" placeholder="Nombre de la empresa" id="exampleInputEmail1"/>
+                <label class="form-label" for="exampleInputEmail1">Nombre de la empresa</label>
+              </div>
+              <div class="form-floating mb-3">
+                <textarea class="form-control form-control-lg" type="text" name="mensaje" aria-describedby="emailHelp" placeholder="Ingrese su mensaje" id="exampleInputEmail1"></textarea>
+                <label class="form-label" for="exampleInputEmail1">Mensaje</label>
+              </div>
+            </form>
+          </div>
+          <div class="modal-body__buttons"> 
+            <button class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
+            <button class="btn btn-success" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Enviar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalToggleLabel2">Solicitud </h5>
+          <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">Cotización realizada con exito!</div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal">Cancelar </button>
+          <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Aceptar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

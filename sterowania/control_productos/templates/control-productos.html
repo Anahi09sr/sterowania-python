@@ -1,0 +1,224 @@
+{% extends 'base-admin.html' %}
+<!--Heredar lo que tiene el archivo base.html-->
+{% load static %}
+{% block content%}
+<div class="content__CtrlProductos">
+  <h3 class="title">Control de Productos</h3>
+  <button class="btn btn-success newBtnElement" type="button" data-bs-toggle="modal" data-bs-target="#modalCotizacion-gral">Nueva Producto</button>
+  <div class="modal-cotizacion">
+    <div class="modal fade" id="modalCotizacion-gral" aria-hidden="true" aria-labelledby="modalCotizacion-gralLabel" tabindex="-1">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalCotizacion-gralLabel">Control de <br/><strong>Productos</strong></h5>
+            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="content-form">
+              <form action="">
+                <div class="form-floating mb-3">
+                  <input class="form-control form-control-lg" placeholder="Ingrese su nombre completo" type="text" name="nombre" aria-describedby="emailHelp"/>
+                  <label class="form-label" for="nombreCliente">ID</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input class="form-control form-control-lg" type="number" name="telefono" maxlength="2" aria-describedby="emailHelp" placeholder="Ingrese su télefono" id="exampleInputEmail1"/>
+                  <label class="form-label" for="exampleInputEmail1">Nombre del producto</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <lablel class="form-label">Categoría</lablel>
+                  <select class="form-control form-control-lg form-select" type="email" name="email" aria-describedby="emailHelp" placeholder="Email válido" id="exampleInputEmail1">
+                    <option>Semáforos</option>
+                    <option>Postes</option>
+                    <option>Señalamientos</option>
+                    <option>Complementos Viales</option>
+                    <option>Servicios de diseño</option>
+                  </select>
+                </div>
+                <div class="form-floating mb-3">
+                  <input class="form-control form-control-lg" type="text" name="telefono" maxlength="2" aria-describedby="emailHelp" placeholder="Ingrese su télefono" id="exampleInputEmail1"/>
+                  <label class="form-label" for="exampleInputEmail1">Nombre de la subcategoría</label>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label" id="formFile" for="exampleInputEmail1">Imagen</label>
+                  <input class="form-control form-control-lg" type="file" name="imagen" aria-describedby="emailHelp" placeholder="Ingrese su mensaje" id="exampleInputEmail1"/>
+                </div>
+                <div class="form-floating mb-3">
+                  <textarea class="form-control form-control-lg" type="text" name="mensaje" aria-describedby="emailHelp" placeholder="Ingrese su mensaje" id="exampleInputEmail1"></textarea>
+                  <label class="form-label" for="exampleInputEmail1">Extracto</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <textarea class="form-control form-control-lg" type="text" name="mensaje" aria-describedby="emailHelp" placeholder="Ingrese su mensaje" id="exampleInputEmail1"></textarea>
+                  <label class="form-label" for="exampleInputEmail1">Descripción</label>
+                </div>
+              </form>
+            </div>
+            <div class="modal-body__buttons"> 
+              <button class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
+              <button class="btn btn-success" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Enviar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalToggleLabel2">Solicitud </h5>
+            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">Cotización realizada con exito!</div>
+          <div class="modal-footer">
+            <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal">Cancelar </button>
+            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Aceptar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="content__CtrlProductos-body">
+    <table class="display" id="myTable" cellspacing="0" width="100%">
+      <thead>
+        <tr></tr>
+        <th>ID</th>
+        <th>Clave</th>
+        <th>Nombre</th>
+        <th>Categoría</th>
+        <th>Subcategoría</th>
+        <th>Ver/Editar</th>
+        <th>Eliminar</th>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>181909</td>
+          <td>Semáforo Vehicular dos secciones</td>
+          <td>Semáforos</td>
+          <td>Semáforo Vehicular</td>
+          <td> <a href="#" data-bs-toggle="modal" data-bs-target="#modalModificarProducto" title="Modificar"> <i class="bi bi-pencil-square"></i></a></td>
+          <td> <a href="#" data-bs-toggle="modal" data-bs-target="#modalEliminar" title="Eliminar"> <i class="bi bi-trash3-fill"></i></a></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>181805</td>
+          <td>Tipo bandera sencillo</td>
+          <td>Postes</td>
+          <td>Poste semáforo vehicular tipo bandera</td>
+          <td> <a href="#" data-bs-toggle="modal" data-bs-target="#modalModificarProducto" title="Modificar"> <i class="bi bi-pencil-square"></i></a></td>
+          <td> <a href="#" data-bs-toggle="modal" data-bs-target="#modalEliminar" title="Eliminar"> <i class="bi bi-trash3-fill"></i></a></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>181910</td>
+          <td>Semáforo Vehicular una sección</td>
+          <td>Semáforos</td>
+          <td>Semáforo Vehicular</td>
+          <td> <a href="#" data-bs-toggle="modal" data-bs-target="#modalModificarProducto" title="Modificar"> <i class="bi bi-pencil-square"></i></a></td>
+          <td> <a href="#" data-bs-toggle="modal" data-bs-target="#modalEliminar" title="Eliminar"> <i class="bi bi-trash3-fill"></i></a></td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>181702</td>
+          <td>Secamiento Informativo</td>
+          <td>Señalamiento urbano</td>
+          <td>Señalamientos</td>
+          <td> <a href="#" data-bs-toggle="modal" data-bs-target="#modalModificarProducto" title="Modificar"> <i class="bi bi-pencil-square"></i></a></td>
+          <td> <a href="#" data-bs-toggle="modal" data-bs-target="#modalEliminar" title="Eliminar"> <i class="bi bi-trash3-fill"></i></a>
+            <div class="modalModificarProducto">
+              <div class="modal fade" id="modalModificarProducto" aria-hidden="true" aria-labelledby="modalModificarProductoLabel" tabindex="-1">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="modalModificarProductoLabel">Modificar <br/><strong>Producto</strong></h5>
+                      <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <div class="content-form">
+                        <form action="">
+                          <div class="form-floating mb-3">
+                            <input class="form-control form-control-lg" placeholder="Ingrese su nombre completo" type="text" name="nombre" aria-describedby="emailHelp"/>
+                            <label class="form-label" for="nombreCliente">ID</label>
+                          </div>
+                          <div class="form-floating mb-3">
+                            <input class="form-control form-control-lg" type="number" name="telefono" maxlength="2" aria-describedby="emailHelp" placeholder="Ingrese su télefono" id="exampleInputEmail1"/>
+                            <label class="form-label" for="exampleInputEmail1">Nombre del producto</label>
+                          </div>
+                          <div class="form-floating mb-3">
+                            <lablel class="form-label">Categoría</lablel>
+                            <select class="form-control form-control-lg form-select" type="email" name="email" aria-describedby="emailHelp" placeholder="Email válido" id="exampleInputEmail1">
+                              <option>Semáforos</option>
+                              <option>Postes</option>
+                              <option>Señalamientos</option>
+                              <option>Complementos Viales</option>
+                              <option>Servicios de diseño</option>
+                            </select>
+                          </div>
+                          <div class="form-floating mb-3">
+                            <input class="form-control form-control-lg" type="text" name="telefono" maxlength="2" aria-describedby="emailHelp" placeholder="Ingrese su télefono" id="exampleInputEmail1"/>
+                            <label class="form-label" for="exampleInputEmail1">Nombre de la subcategoría</label>
+                          </div>
+                          <div class="mb-3">
+                            <label class="form-label" id="formFile" for="exampleInputEmail1">Imagen</label>
+                            <input class="form-control form-control-lg" type="file" name="imagen" aria-describedby="emailHelp" placeholder="Ingrese su mensaje" id="exampleInputEmail1"/>
+                          </div>
+                          <div class="form-floating mb-3">
+                            <textarea class="form-control form-control-lg" type="text" name="mensaje" aria-describedby="emailHelp" placeholder="Ingrese su mensaje" id="exampleInputEmail1"></textarea>
+                            <label class="form-label" for="exampleInputEmail1">Extracto</label>
+                          </div>
+                          <div class="form-floating mb-3">
+                            <textarea class="form-control form-control-lg" type="text" name="mensaje" aria-describedby="emailHelp" placeholder="Ingrese su mensaje" id="exampleInputEmail1"></textarea>
+                            <label class="form-label" for="exampleInputEmail1">Descripción</label>
+                          </div>
+                        </form>
+                      </div>
+                      <div class="modal-body__buttons"> 
+                        <button class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
+                        <button class="btn btn-success" data-bs-target="#Modificar" data-bs-toggle="modal" data-bs-dismiss="modal">Guardar</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal fade" id="Modificar" aria-hidden="true" aria-labelledby="ModificarToggleLabel2" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="ModificarModalToggleLabel2">Editar </h5>
+                      <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">Modificación realizada con exito!</div>
+                    <div class="modal-footer">
+                      <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal">Cancelar </button>
+                      <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Aceptar</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal fade" id="modalEliminar" aria-hidden="true" aria-labelledby="modalEliminarToggleLabel" tabindex="-1">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="modalEliminarModalToggleLabel">Eliminar</h5>
+                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">¿Estas seguro que desdeas eliminar?</div>
+                  <div class="modal-footer">
+                    <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal">Cancelar </button>
+                    <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Aceptar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <script>
+      $(document).ready( function () {
+      $('#myTable').DataTable();
+      } );
+    </script>
+  </div>
+</div>
+    {% endblock%}

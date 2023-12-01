@@ -1,0 +1,26 @@
+{% extends 'base.html' %}<!--Heredar lo que tiene el archivo base.html-->
+{% load static %}
+{% block content%}
+    <div class="login slideUp">
+      <div class="login__title"> 
+        <h2>Iniciar sesión</h2>
+      </div>
+      <form class="login__formLogin">
+        <div class="login__formLogin__box">
+          <div class="form-group">
+            <label for="exampleInputEmail1">Usuario</label>
+            <div class="icono"> <img src="{% static '/images/iconos/email-login.svg' %}" alt=""/>
+              <input class="form-control" id="exampleInputEmail1" type="email" aria-describedby="emailHelp" placeholder="Ingrese su usuario"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <div class="icono"> <img src="{% static 'images/iconos/password.svg' %}" alt=""/>
+              <input class="form-control" id="exampleInputPassword1" type="password" placeholder="Password"/>
+            </div>
+          </div>
+          <div class="form-group form-group__loginButton"><a class="btn btn-warning" href="{% url 'control-cotizaciones' %}">ingresar</a></div>
+        </div>
+      </form>
+    </div>
+{% endblock %}
