@@ -1,7 +1,8 @@
 from django import forms
+from django.forms import ModelForm
 from .models import Cotizacion
 
-class Cotizacion(forms.ModelForm):
+class CotizacionForm(forms.ModelForm):
     class Meta:
         model = Cotizacion
-        fields = ['nombre_cliente', 'telefono', 'email', 'nombre_empresa','mensaje']
+        fields = '__all__'

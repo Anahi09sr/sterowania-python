@@ -39,7 +39,7 @@
           <ul class="menu__links"> 
             <li class="menu__item"> <a class="menu__link" href="{% url 'index' %}">Inicio</a></li>
             <li class="menu__item"> <a class="menu__link" href="{% url 'catalogo' %}">Productos</a></li>
-            <li class="menu__item"> <a class="menu__link" href="{% url 'cotiza_gral' %}">Cotizar</a></li>
+            <li class="menu__item"> <a class="menu__link" href="{% url 'create' %}">Cotizar</a></li>
             <li class="menu__item"> <a class="menu__link" href="{% url 'login' %}">Login</a></li>
           </ul>
           <div class="menu__hamburger"> <img class="menu__img" src="{% static 'images/iconos/menu.svg' %}" alt="icono de menu"/></div>
@@ -80,7 +80,7 @@
             <ul> 
               <li><a href="{% url 'index' %}">Inicio</a></li>
               <li><a href="{% url 'catalogo' %}">Catálogo </a></li>
-              <li><a href="{%url 'cotiza_gral' %}">Cotizar</a></li>
+              <li><a href="{%url 'create' %}">Cotizar</a></li>
               <li><a href="{% url 'login' %}">Login</a></li>
               <li><a href="privacidad.html">Aviso de Privacidad </a></li>
             </ul>

@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 import os
 from pathlib import Path
+from django.contrib.messages import constants as message_constants 
 #from.bd import MYSQL as Basedatos
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -96,7 +97,10 @@ DATABASES = {
         'USER': 'root',
         'PASSWORD': 'root',
         'HOST': 'localhost',  
-        'PORT': '3306',  
+        'PORT': '3306', 
+         'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+         }  
            
     }
 
@@ -149,3 +153,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #Media Files
 #MEDIA_ROOT = BASE_DIR /'media'  #carpeta donde estaran almacenadas las imagenes
 #MEDIA_URL = '/media/
+
+# Para mensajes de Django vinculados con mensajes de Bootstrap
+MESSAGE_TAGS = {message_constants.DEBUG: 'debug',
+                message_constants.INFO: 'info',
+                message_constants.SUCCESS: 'success',
+                message_constants.WARNING: 'warning',
+                message_constants.ERROR: 'danger',}
