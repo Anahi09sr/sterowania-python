@@ -1,12 +1,5 @@
 {% extends 'base.html' %}<!--Heredar lo que tiene el archivo base.html-->
 {% load static %}
-{% if messages %}
-	<ul class="messages">
-		{% for message in messages %}
-			<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-		{% endfor %}
-	</ul>
-	{% endif %}
 {% block content%}
 
     <div class="slideCotizarGral slide">
@@ -23,7 +16,7 @@
           <form method="POST" action="{% url 'save' %}">
             {% csrf_token %} 
             <div class="form-floating mb-3">
-                <input class="form-control form-control-lg" placeholder="Ingrese su nombre completo" type="text" name="nombre_cliente" aria-describedby="emailHelp" maxlength="40" required="required" id="nombreCliente"/>
+                <input class="form-control form-control-lg" placeholder="Ingrese su nombre completo" type="text" name="nombre_cliente" aria-describedby="emailHelp" maxlength="50" required="required" id="nombreCliente"/>
                 <label for="nombreCliente">Nombre Completo</label>
             </div>
             <div class="form-floating mb-3">
@@ -35,16 +28,25 @@
                 <label for="email1">Email </label>
             </div>
             <div class="form-floating mb-3">
-                <input class="form-control form-control-lg" type="text" name="nombre_empresa" aria-describedby="emailHelp" placeholder="Nombre de la empresa" id="nombreEmpresa"/>
+                <input class="form-control form-control-lg" type="text" name="nombre_empresa" aria-describedby="emailHelp" maxlength="50" placeholder="Nombre de la empresa" id="nombreEmpresa"/>
                 <label for="nombreEmpresa">Nombre de la empresa</label>
             </div>
             <div class="form-floating mb-3">
-                <textarea class="form-control form-control-lg" type="text" name="mensaje" aria-describedby="emailHelp" placeholder="Ingrese su mensaje" id="mensaje1"></textarea>
+                <textarea class="form-control form-control-lg" type="text" name="mensaje" aria-describedby="emailHelp" maxlength="200" placeholder="Ingrese su mensaje" id="mensaje1"></textarea>
                 <label for="mensaje1">Mensaje</label>
             </div>
             <button type="submit" class="btn btn-dark btn-lg" >Enviar</button>
         </form>
-      
+        {% if messages %}
+          <div class="row">
+              {% for message in messages %}
+              <div class="alert alert-{{ message.tags }}" role="alert">
+                  <p>{{ message }}</p>
+              </div>
+              {% endfor %}
+          </div>
+        {% endif %}
+    <!--
         {% if form.errors %}
           <ul class="errorlist">
             {% for field, error_list in form.errors.items %}
@@ -53,7 +55,7 @@
               {% endfor %}
             {% endfor %}
           </ul>
-        {% endif %}
+        {% endif %}-->
 
       </div>
       
