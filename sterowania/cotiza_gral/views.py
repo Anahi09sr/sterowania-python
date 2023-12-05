@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .forms import CotizacionForm
 from django.contrib import messages
+from .models import Cotizacion
 
 def create_cotizacion(request):
     # If the request method is POST, process the form data
@@ -19,3 +20,6 @@ def save_cotizacion(request):
         form = CotizacionForm()
 
     return render(request, 'cotiza_gral.html', {'form': form})
+def listar_cotizacion(request):
+    cotizaciones = Cotizacion.objects.all()
+    return render (request, "control-cotiza.html", {"cotizaciones":cotizaciones})
