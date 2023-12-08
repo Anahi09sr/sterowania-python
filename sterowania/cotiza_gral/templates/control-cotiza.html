@@ -22,16 +22,16 @@
           <td>{{cotizacion.nombre_cliente}}</td>
           <td>{{cotizacion.fecha}}</td>
           <td>Cancelada</td>
-          <td> <a href="#" data-bs-toggle="modal" data-bs-target="#modalCotizacion-unica" title="Modificar"> <i class="bi bi-pencil-square"></i></a></td>
+          <td> <a href="{% url 'editar_cotizacion' cotizacion.id_cotizacion %}" data-bs-toggle="modal" data-id="{{ cotizacion.id_cotizacion }}"  data-bs-target="#modalEditar" title="Modificar"> <i class="bi bi-pencil-square"></i></a></td>
           <td> <a href="#" data-bs-toggle="modal" data-bs-target="#modalEliminar" title="Eliminar"> <i class="bi bi-trash3-fill"></i></a></td>
         </tr>
         {% endfor %}
             <div class="modal-cotizacion">
-              <div class="modal fade" id="modalCotizacion-unica" aria-hidden="true" aria-labelledby="modalCotizacion-unicaLabel" tabindex="-1">
+              <div class="modal fade" id="modalEditar" aria-hidden="true" aria-labelledby="modalEditarLabel" tabindex="-1">
                 <div class="modal-dialog modal-lg modal-dialog-centered">
                   <div class="modal-content">
                     <div class="modal-header modal-header-unico">
-                      <h5 class="modal-title" id="modalCotizacion-unicaLabel">SOLICITUD DE <br/><strong>COTIZACIÓN</strong></h5>
+                      <h5 class="modal-title" id="modalEditarLabel">SOLICITUD DE <br/><strong>COTIZACIÓN</strong></h5>
                       <div class="modal-header-unico__detail">
                         <div class="modal-header-unico__detail-img"><img src="{% static 'images/Productos/Semaforos/Semaforo vehicular/7.jpg' %}" alt="imagen del producto" srcset=""/></div>
                         <div class="modal-header-unico__detail-txt">
@@ -44,34 +44,33 @@
                       <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                      <div class="content-form">
-                        <form action="">
-                          <div class="form-floating mb-3">
-                            <input class="form-control form-control-lg" placeholder="Ingrese su nombre completo" type="number" name="nombre" aria-describedby="emailHelp" min="1" max="1000000" required="required" id="inputCantidad"/>
-                            <label for="inputCantidad">Cantidad</label>
+                        <div id="modalContent">
+                          <div class="content-form">
+                            <form action="#" method="POST">
+                              {% csrf_token %} 
+                              <div class="form-floating mb-3">
+                                <input class="form-control form-control-lg" placeholder="Ingrese su nombre completo" type="text" name="nombre_cliente" aria-describedby="emailHelp" maxlength="50" required="required" id="nombreCliente"/>
+                                <label for="nombreCliente">Nombre Completo</label>
+                              </div>
+                              <div class="form-floating mb-3">
+                                  <input class="form-control form-control-lg" type="tel" name="telefono" maxlength="10" aria-describedby="emailHelp" required="required" placeholder="Ingrese su télefono" id="telefono1"/>
+                                  <label for="telefono1">Teléfono a 10 dígitos</label>
+                              </div>
+                              <div class="form-floating mb-3">
+                                  <input class="form-control form-control-lg" type="email" name="email" aria-describedby="emailHelp" placeholder="Email válido" id="email1"/>
+                                  <label for="email1">Email </label>
+                              </div>
+                              <div class="form-floating mb-3">
+                                  <input class="form-control form-control-lg" type="text" name="nombre_empresa" aria-describedby="emailHelp" maxlength="50" placeholder="Nombre de la empresa" id="nombreEmpresa"/>
+                                  <label for="nombreEmpresa">Nombre de la empresa</label>
+                              </div>
+                              <div class="form-floating mb-3">
+                                  <textarea class="form-control form-control-lg" type="text" name="mensaje" aria-describedby="emailHelp" maxlength="200" placeholder="Ingrese su mensaje" id="mensaje1"></textarea>
+                                  <label for="mensaje1">Mensaje</label>
+                              </div>
+                            </form>
                           </div>
-                          <div class="form-floating mb-3">
-                            <input class="form-control form-control-lg" placeholder="Ingrese su nombre completo" type="text" name="nombre" aria-describedby="emailHelp" maxlength="40" required="required" id="nombreCliente"/>
-                            <label for="nombreCliente">Nombre Completo</label>
-                          </div>
-                          <div class="form-floating mb-3">
-                            <input class="form-control form-control-lg" type="tel" name="telefono" maxlength="10" aria-describedby="emailHelp" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required="required" placeholder="Ingrese su télefono" id="exampleInputEmail1"/>
-                            <label for="exampleInputEmail1">Teléfono a 10 dígitos</label>
-                          </div>
-                          <div class="form-floating mb-3">
-                            <input class="form-control form-control-lg" type="email" name="email" aria-describedby="emailHelp" placeholder="Email válido" id="exampleInputEmail1"/>
-                            <label for="exampleInputEmail1">Email </label>
-                          </div>
-                          <div class="form-floating mb-3">
-                            <input class="form-control form-control-lg" type="text" name="nombre_empresa" aria-describedby="emailHelp" placeholder="Nombre de la empresa" id="exampleInputEmail1"/>
-                            <label for="exampleInputEmail1">Nombre de la empresa</label>
-                          </div>
-                          <div class="form-floating mb-3">
-                            <textarea class="form-control form-control-lg" type="text" name="mensaje" aria-describedby="emailHelp" placeholder="Ingrese su mensaje" id="exampleInputEmail1"></textarea>
-                            <label for="exampleInputEmail1">Mensaje</label>
-                          </div>
-                        </form>
-                      </div>
+                        </div>
                       <div class="modal-body__buttons"> 
                         <button class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
                         <button class="btn btn-success" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Atenida</button>
@@ -116,10 +115,37 @@
       </tbody>
     </table>
     <script>
-      $(document).ready( function () {
-      $('#myTable').DataTable();
-      } );
-    </script>
+      $(document).ready(function () {
+          $('#myTable').DataTable();
+
+          $('a[data-bs-toggle="modal"]').on('click', function () {
+              var targetModalId = $(this).data('bs-target');
+              var id_cotizacion = $(this).data('id');
+              console.log('ID de cotización:', id_cotizacion); 
+              // AJAX para cargar información del registro
+              $.ajax({
+                url: '{% url "editar_cotizacion" id_cotizacion=0 %}'.replace('0', id_cotizacion),
+                  type: 'GET',
+                  data: { 'id_cotizacion': id_cotizacion },
+                  success: function (data) {
+                    console.log('Datos cargados:', data);  // Muestra los datos en la consola
+                  // Llena los campos del formulario con los datos de la cotización
+                    $('#nombreCliente').val(data.nombre_cliente);
+                    $('#telefono1').val(data.telefono);
+                    $('#email1').val(data.email);
+                    $('#nombreEmpresa').val(data.nombre_empresa);
+                    $('#mensaje1').val(data.mensaje);
+
+                    $(targetModalId).modal('show');
+                  },
+                  error: function (xhr, status, error) {
+                    console.error('Error al cargar la información del registro:', error);
+                    alert('Error al cargar la información del registro.');
+                  }
+              });
+          });
+      });
+  </script>
   </div>
 </div>
 {% endblock%}

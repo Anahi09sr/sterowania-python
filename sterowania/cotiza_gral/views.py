@@ -2,6 +2,8 @@ from django.shortcuts import render
 from .forms import CotizacionForm
 from django.contrib import messages
 from .models import Cotizacion
+from django.shortcuts import render, get_object_or_404
+from django.http import JsonResponse
 
 def create_cotizacion(request):
     # If the request method is POST, process the form data
@@ -23,3 +25,14 @@ def save_cotizacion(request):
 def listar_cotizacion(request):
     cotizaciones = Cotizacion.objects.all()
     return render (request, "control-cotiza.html", {"cotizaciones":cotizaciones})
+def edit_cotizacion(request, id_cotizacion):
+    cotizacion = get_object_or_404(Cotizacion, id_cotizacion=id_cotizacion)
+    data = {
+        'nombre_cliente':cotizacion.nombre_cliente,
+        'telefono': cotizacion.telefono,
+        'email': cotizacion.email,
+        'nombre_empresa': cotizacion.nombre_empresa,
+        'mensaje': cotizacion.mensaje,
+    }
+    print(data)
+    return JsonResponse(data)
