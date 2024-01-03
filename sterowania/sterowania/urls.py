@@ -32,5 +32,6 @@ urlpatterns = [
     path('control-cotizaciones/',include('control_cotizaciones.urls')),
     path('control-productos/',include('control_productos.urls')),
     path('control-subcategorias/',include('control_subcategorias.urls')),
+    ##path('accounts/', include('django.contrib.auth.urls'))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 #+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 

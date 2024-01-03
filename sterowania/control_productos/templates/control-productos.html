@@ -15,14 +15,15 @@
           </div>
           <div class="modal-body">
             <div class="content-form">
-              <form action="">
+              <form  method="POST" action="{% url 'create_producto' %}">
+                {% csrf_token %} 
                 <div class="form-floating mb-3">
-                  <input class="form-control form-control-lg" placeholder="Ingrese su nombre completo" type="text" name="nombre" aria-describedby="emailHelp"/>
-                  <label class="form-label" for="nombreCliente">ID</label>
+                  <input class="form-control form-control-lg" placeholder="Ingrese la clave del producto" type="number" name="clave" maxlength="4" aria-describedby="emailHelp" id="clave1"/>
+                  <label class="form-label" for="clave1">Clave</label>
                 </div>
                 <div class="form-floating mb-3">
-                  <input class="form-control form-control-lg" type="number" name="telefono" maxlength="2" aria-describedby="emailHelp" placeholder="Ingrese su télefono" id="exampleInputEmail1"/>
-                  <label class="form-label" for="exampleInputEmail1">Nombre del producto</label>
+                  <input class="form-control form-control-lg" type="text" name="nombre_producto" maxlength="100" aria-describedby="emailHelp" placeholder="Ingrese nommbre del producto" id="nombreProducto1"/>
+                  <label class="form-label" for="nombreProducto1">Nombre del producto</label>
                 </div>
                 <div class="form-floating mb-3">
                   <lablel class="form-label">Categoría</lablel>
@@ -39,23 +40,32 @@
                   <label class="form-label" for="exampleInputEmail1">Nombre de la subcategoría</label>
                 </div>
                 <div class="mb-3">
-                  <label class="form-label" id="formFile" for="exampleInputEmail1">Imagen</label>
-                  <input class="form-control form-control-lg" type="file" name="imagen" aria-describedby="emailHelp" placeholder="Ingrese su mensaje" id="exampleInputEmail1"/>
+                  <label class="form-label" id="formFile" for="imagen1">Imagen</label>
+                  <input class="form-control form-control-lg" type="file" name="imagen" aria-describedby="emailHelp" placeholder="Ingrese la imagen del producto" id="imagen1"/>
                 </div>
                 <div class="form-floating mb-3">
-                  <textarea class="form-control form-control-lg" type="text" name="mensaje" aria-describedby="emailHelp" placeholder="Ingrese su mensaje" id="exampleInputEmail1"></textarea>
-                  <label class="form-label" for="exampleInputEmail1">Extracto</label>
+                  <textarea class="form-control form-control-lg" type="text" name="extract" aria-describedby="emailHelp" placeholder="Ingrese el extract del producto" id="extract1"></textarea>
+                  <label class="form-label" for="extract1">Extracto</label>
                 </div>
                 <div class="form-floating mb-3">
-                  <textarea class="form-control form-control-lg" type="text" name="mensaje" aria-describedby="emailHelp" placeholder="Ingrese su mensaje" id="exampleInputEmail1"></textarea>
-                  <label class="form-label" for="exampleInputEmail1">Descripción</label>
+                  <textarea class="form-control form-control-lg" type="text" name="descripcion" aria-describedby="emailHelp" placeholder="Ingrese la descripción del producto" id="descripcion1"></textarea>
+                  <label class="form-label" for="descripcion1">Descripción</label>
                 </div>
-              </form>
+                {% if messages %}
+                <div class="row">
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}" role="alert">
+                        <p>{{ message }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+              {% endif %}
             </div>
             <div class="modal-body__buttons"> 
               <button class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
               <button class="btn btn-success" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Enviar</button>
             </div>
+          </form>
           </div>
         </div>
       </div>
@@ -89,59 +99,36 @@
         <th>Eliminar</th>
       </thead>
       <tbody>
+        {% for producto in productos %}
         <tr>
-          <td>1</td>
-          <td>181909</td>
-          <td>Semáforo Vehicular dos secciones</td>
+          <td>{{ producto.id_producto}}</td>
+          <td>{{ producto.clave}}</td>
+          <td>{{ producto.nombre_producto}}</td>
           <td>Semáforos</td>
           <td>Semáforo Vehicular</td>
-          <td> <a href="#" data-bs-toggle="modal" data-bs-target="#modalModificarProducto" title="Modificar"> <i class="bi bi-pencil-square"></i></a></td>
-          <td> <a href="#" data-bs-toggle="modal" data-bs-target="#modalEliminar" title="Eliminar"> <i class="bi bi-trash3-fill"></i></a></td>
+          <td> <a href="{% url 'editar_producto' producto.id_producto %}" data-id="{{producto.id_producto }}"  data-bs-toggle="modal" data-bs-target="#modalEditar" title="Modificar"> <i class="bi bi-pencil-square"></i></a></td>
+          <td> <a href="{% url 'eliminar_producto' producto.id_producto %}" data-id="{{producto.id_producto }}" data-bs-toggle="modal" data-bs-target="#modalEliminar" title="Eliminar"> <i class="bi bi-trash3-fill"></i></a></td>
         </tr>
-        <tr>
-          <td>2</td>
-          <td>181805</td>
-          <td>Tipo bandera sencillo</td>
-          <td>Postes</td>
-          <td>Poste semáforo vehicular tipo bandera</td>
-          <td> <a href="#" data-bs-toggle="modal" data-bs-target="#modalModificarProducto" title="Modificar"> <i class="bi bi-pencil-square"></i></a></td>
-          <td> <a href="#" data-bs-toggle="modal" data-bs-target="#modalEliminar" title="Eliminar"> <i class="bi bi-trash3-fill"></i></a></td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>181910</td>
-          <td>Semáforo Vehicular una sección</td>
-          <td>Semáforos</td>
-          <td>Semáforo Vehicular</td>
-          <td> <a href="#" data-bs-toggle="modal" data-bs-target="#modalModificarProducto" title="Modificar"> <i class="bi bi-pencil-square"></i></a></td>
-          <td> <a href="#" data-bs-toggle="modal" data-bs-target="#modalEliminar" title="Eliminar"> <i class="bi bi-trash3-fill"></i></a></td>
-        </tr>
-        <tr>
-          <td>4</td>
-          <td>181702</td>
-          <td>Secamiento Informativo</td>
-          <td>Señalamiento urbano</td>
-          <td>Señalamientos</td>
-          <td> <a href="#" data-bs-toggle="modal" data-bs-target="#modalModificarProducto" title="Modificar"> <i class="bi bi-pencil-square"></i></a></td>
-          <td> <a href="#" data-bs-toggle="modal" data-bs-target="#modalEliminar" title="Eliminar"> <i class="bi bi-trash3-fill"></i></a>
-            <div class="modalModificarProducto">
-              <div class="modal fade" id="modalModificarProducto" aria-hidden="true" aria-labelledby="modalModificarProductoLabel" tabindex="-1">
+        {% endfor %}
+            <div class="modal-producto">
+              <div class="modal fade" id="modalEditar" aria-hidden="true" aria-labelledby="modalEditarLabel" tabindex="-1">
                 <div class="modal-dialog modal-lg modal-dialog-centered">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="modalModificarProductoLabel">Modificar <br/><strong>Producto</strong></h5>
+                      <h5 class="modal-title" id="modalEditarLabel">Modificar <br/><strong>Producto</strong></h5>
                       <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                       <div class="content-form">
-                        <form action="">
+                        <form  method="POST" action="#">
+                          {% csrf_token %} 
                           <div class="form-floating mb-3">
-                            <input class="form-control form-control-lg" placeholder="Ingrese su nombre completo" type="text" name="nombre" aria-describedby="emailHelp"/>
-                            <label class="form-label" for="nombreCliente">ID</label>
+                            <input class="form-control form-control-lg" placeholder="Ingrese la clave del producto" type="number" name="clave" maxlength="4" aria-describedby="emailHelp" id="clave2"/>
+                            <label class="form-label" for="clave2">Clave</label>
                           </div>
                           <div class="form-floating mb-3">
-                            <input class="form-control form-control-lg" type="number" name="telefono" maxlength="2" aria-describedby="emailHelp" placeholder="Ingrese su télefono" id="exampleInputEmail1"/>
-                            <label class="form-label" for="exampleInputEmail1">Nombre del producto</label>
+                            <input class="form-control form-control-lg" type="text" name="nombre_producto" maxlength="100" aria-describedby="emailHelp" placeholder="Ingrese nommbre del producto" id="nombreProducto2"/>
+                            <label class="form-label" for="nombreProducto2">Nombre del producto</label>
                           </div>
                           <div class="form-floating mb-3">
                             <lablel class="form-label">Categoría</lablel>
@@ -158,67 +145,114 @@
                             <label class="form-label" for="exampleInputEmail1">Nombre de la subcategoría</label>
                           </div>
                           <div class="mb-3">
-                            <label class="form-label" id="formFile" for="exampleInputEmail1">Imagen</label>
-                            <input class="form-control form-control-lg" type="file" name="imagen" aria-describedby="emailHelp" placeholder="Ingrese su mensaje" id="exampleInputEmail1"/>
+                            <label class="form-label" id="formFile" for="imagen2">Imagen</label>
+                            <input class="form-control form-control-lg" type="file" name="imagen" aria-describedby="emailHelp" placeholder="Ingrese la imagen del producto" id="imagen2"/>
                           </div>
                           <div class="form-floating mb-3">
-                            <textarea class="form-control form-control-lg" type="text" name="mensaje" aria-describedby="emailHelp" placeholder="Ingrese su mensaje" id="exampleInputEmail1"></textarea>
-                            <label class="form-label" for="exampleInputEmail1">Extracto</label>
+                            <textarea class="form-control form-control-lg" type="text" name="extract" aria-describedby="emailHelp" placeholder="Ingrese el extract del producto" id="extract2"></textarea>
+                            <label class="form-label" for="extract2">Extracto</label>
                           </div>
                           <div class="form-floating mb-3">
-                            <textarea class="form-control form-control-lg" type="text" name="mensaje" aria-describedby="emailHelp" placeholder="Ingrese su mensaje" id="exampleInputEmail1"></textarea>
-                            <label class="form-label" for="exampleInputEmail1">Descripción</label>
+                            <textarea class="form-control form-control-lg" type="text" name="descripcion" aria-describedby="emailHelp" placeholder="Ingrese la descripción del producto" id="descripcion2"></textarea>
+                            <label class="form-label" for="descripcion2">Descripción</label>
                           </div>
                         </form>
                       </div>
                       <div class="modal-body__buttons"> 
                         <button class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
-                        <button class="btn btn-success" data-bs-target="#Modificar" data-bs-toggle="modal" data-bs-dismiss="modal">Guardar</button>
+                        <button class="btn btn-success" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Enviar</button>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="modal fade" id="Modificar" aria-hidden="true" aria-labelledby="ModificarToggleLabel2" tabindex="-1">
-                <div class="modal-dialog modal-dialog-centered">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="ModificarModalToggleLabel2">Editar </h5>
-                      <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">Modificación realizada con exito!</div>
-                    <div class="modal-footer">
-                      <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal">Cancelar </button>
-                      <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Aceptar</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
-            <div class="modal fade" id="modalEliminar" aria-hidden="true" aria-labelledby="modalEliminarToggleLabel" tabindex="-1">
+            <div class="modal fade" id="modalEliminar" aria-hidden="true" aria-labelledby="modalEliminarLabel" tabindex="-1">
               <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="modalEliminarModalToggleLabel">Eliminar</h5>
+                    <h5 class="modal-title" id="modalEliminarModalLabel">Eliminar</h5>
                     <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">¿Estas seguro que desdeas eliminar?</div>
                   <div class="modal-footer">
-                    <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal">Cancelar </button>
-                    <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Aceptar</button>
+                    <button class="btn btn-primary" data-bs-target="#modalEliminar" data-bs-toggle="modal" data-bs-dismiss="modal">Cancelar </button>
+                    <button  id="confirmarEliminar" class="btn btn-secondary" type="button" data-bs-dismiss="modal">Aceptar</button>
                   </div>
                 </div>
               </div>
             </div>
-          </td>
-        </tr>
+          </div>  
+          
       </tbody>
-    </table>
     <script>
-      $(document).ready( function () {
-      $('#myTable').DataTable();
-      } );
-    </script>
+      $(document).ready(function () {
+          $('#myTable').DataTable();
+  
+          $('a[data-bs-toggle="modal"]').on('click', function () {
+              var targetModalId = $(this).data('bs-target');
+              var id_producto = $(this).data('id');
+              console.log('ID del producto:', id_producto);
+  
+              // Verificar si es el modal de eliminación
+              if (targetModalId === '#modalEliminar') {
+                  // Actualizar el ID en el botón de eliminación
+                  $('#confirmarEliminar').data('id', id_producto);
+              } else {
+                  // AJAX para cargar información del registro en el modal de edición
+                  $.ajax({
+                      url: '{% url "editar_producto" id_producto=0 %}'.replace('0', id_producto),
+                      type: 'GET',
+                      data: { 'id_producto': id_producto },
+                      success: function (data) {
+                          console.log('Datos cargados:', data);
+                          // Llena los campos del formulario con los datos de la cotización
+                          $('#clave2').val(data.clave);
+                          $('#nombreProducto2').val(data.nombre_producto);
+                          //$('#imagen2').val(data.imagen);
+                          $('#extract2').val(data.extract);
+                          $('#descripcion2').val(data.descripcion);
+                      },
+                      error: function (xhr, status, error) {
+                          console.error('Error al cargar la información del registro:', error);
+                          alert('Error al cargar la información del registro.');
+                      }
+                  });
+              }
+          });
+  
+                  // Manejar clic en el botón de eliminación
+        $('#confirmarEliminar').on('click', function () {
+            var id_producto = $(this).data('id');
+            if (id_producto!== undefined) {
+              $.ajax({
+                url: '{% url "eliminar_producto" id_producto=0 %}'.replace('0', id_producto),
+                type: 'POST',
+                dataType: 'json',
+                data:  { 'id_producto': id_producto },
+                success: function (response) {
+                    console.log('Respuesta del servidor:', response);
+                    alert('Registro eliminado correctamente');
+                    // Cerrar el modal después de la eliminación
+                    $('#modalEliminar').modal('hide');
+                    // Recargar la página después de la eliminación
+                    location.reload();
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error al eliminar el registro:', error);
+                    alert('Error al eliminar el registro.');
+                }
+              });
+
+            } else {
+                console.error('ID de cotización no definido al intentar eliminar el registro.');
+                alert('Error al eliminar el registro: ID no definido.');
+            }
+        });
+
+      });
+  </script>
+  </table>
   </div>
 </div>
     {% endblock%}

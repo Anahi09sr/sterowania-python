@@ -12,7 +12,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 import os
 from pathlib import Path
-from django.contrib.messages import constants as message_constants 
+from django.contrib.messages import constants as message_constants
+
 #from.bd import MYSQL as Basedatos
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -160,3 +161,8 @@ MESSAGE_TAGS = {message_constants.DEBUG: 'debug',
                 message_constants.SUCCESS: 'success',
                 message_constants.WARNING: 'warning',
                 message_constants.ERROR: 'danger',}
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]
+LOGIN_URL = 'login'  # Ajusta esto según la URL de tu página de inicio de sesión
+
