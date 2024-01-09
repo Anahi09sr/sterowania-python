@@ -147,7 +147,11 @@
                           <!-- Mostrar la vista previa de la imagen -->
                           <div class="mb-3">
                             <label for="imagen_preview">Vista previa de la imagen:</label>
+<<<<<<< HEAD
                             <img id="imagen_preview" src="" alt="Vista previa de la imagen" style="max-width: 50%;">
+=======
+                            <img id="imagen_preview" src="{{ producto.imagen_url}}" alt="Vista previa de la imagen" style="max-width: 50%;">
+>>>>>>> 812597b (en el formulario de control prodcutos me guarda la imagen pero locaalmente, tengo problemas al vizaulizar la iamgen al ediatr el modal. no es posible vizualizarlo ya que se encuentra localmente.)
                         </div>
             
                         <div class="mb-3">
@@ -222,8 +226,13 @@
                     var rutaLocalImagen = data.imagen_url;
 
                     // Convertir la ruta local a una URL válida
+<<<<<<< HEAD
                     //var urlImagen = 'file:///' + encodeURI(rutaLocalImagen.replace(/\\/g, '/'));
                     var urlImagen = '{{ data.imagen_url|safe }}';
+=======
+                    var urlImagen = 'file:///' + encodeURI(rutaLocalImagen.replace(/\\/g, '/'));
+                    //var urlImagen = '{{ data.imagen|safe }}';
+>>>>>>> 812597b (en el formulario de control prodcutos me guarda la imagen pero locaalmente, tengo problemas al vizaulizar la iamgen al ediatr el modal. no es posible vizualizarlo ya que se encuentra localmente.)
 
                     // Mostrar la vista previa de la imagen
                     $('#imagen_preview').attr('src', urlImagen);

@@ -8,6 +8,11 @@ from .forms import ProductoForm
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.conf import settings
+import os
+import uuid
+
+# views.py
 
 # views.py
 def create_Producto(request):
@@ -59,7 +64,7 @@ def update_Producto(request, id_producto):
        'nombre_producto':producto.nombre_producto,
        'clave':producto.clave,
        'descripcion':producto.descripcion,
-       #'imagen_url':producto.imagen,
+       'imagen_url':producto.imagen,
        'extract':producto.extract,
 
     }
