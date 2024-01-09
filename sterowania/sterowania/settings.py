@@ -152,8 +152,8 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR,'core\static'),]
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #Media Files
-#MEDIA_ROOT = BASE_DIR /'media'  #carpeta donde estaran almacenadas las imagenes
-#MEDIA_URL = '/media/
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')#BASE_DIR /'media'  #carpeta donde estaran almacenadas las imagenes
+MEDIA_URL = '/media/'
 
 # Para mensajes de Django vinculados con mensajes de Bootstrap
 MESSAGE_TAGS = {message_constants.DEBUG: 'debug',
