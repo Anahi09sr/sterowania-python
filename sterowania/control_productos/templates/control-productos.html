@@ -147,7 +147,7 @@
                           <!-- Mostrar la vista previa de la imagen -->
                           <div class="mb-3">
                             <label for="imagen_preview">Vista previa de la imagen:</label>
-                            <img id="imagen_preview" src="{{ producto.imagen_url}}" alt="Vista previa de la imagen" style="max-width: 50%;">
+                            <img id="imagen_preview" src="data:image/jpeg;base64,{{ producto.imagen }}" alt="Vista previa de la imagen" style="max-width: 50%;">
                         </div>
             
                         <div class="mb-3">
@@ -193,82 +193,78 @@
       </tbody>
       <script>
         $(document).ready(function () {
-    $('#myTable').DataTable();
-
-    $('a[data-bs-toggle="modal"]').on('click', function () {
-        var targetModalId = $(this).data('bs-target');
-        var id_producto = $(this).data('id');
-        console.log('ID del producto:', id_producto);
-
-        // Verificar si es el modal de eliminación
-        if (targetModalId === '#modalEliminar') {
-            // Actualizar el ID en el botón de eliminación
-            $('#confirmarEliminar').data('id', id_producto);
-        } else {
-            // AJAX para cargar información del registro en el modal de edición
-            $.ajax({
-                url: '{% url "editar_producto" id_producto=0 %}'.replace('0', id_producto),
-                type: 'GET',
-                data: { 'id_producto': id_producto },
-                success: function (data) {
-                    console.log('Datos cargados:', data);
-                    // Llena los campos del formulario con los datos de los productos
-                    $('#clave2').val(data.clave);
-                    $('#nombreProducto2').val(data.nombre_producto);
-                    $('#extract2').val(data.extract);
-                    $('#descripcion2').val(data.descripcion);
-
-                    // Obtener la ruta local de la imagen desde los datos cargados
-                    var rutaLocalImagen = data.imagen_url;
-
-                    // Convertir la ruta local a una URL válida
-                    var urlImagen = 'file:///' + encodeURI(rutaLocalImagen.replace(/\\/g, '/'));
-                    //var urlImagen = '{{ data.imagen|safe }}';
-
-                    // Mostrar la vista previa de la imagen
-                    $('#imagen_preview').attr('src', urlImagen);
-                },
-                error: function (xhr, status, error) {
-                    console.error('Error al cargar la información del registro:', error);
-                    alert('Error al cargar la información del registro.');
+            $('#myTable').DataTable();
+    
+            $('a[data-bs-toggle="modal"]').on('click', function () {
+                var targetModalId = $(this).data('bs-target');
+                var id_producto = $(this).data('id');
+                console.log('ID del producto:', id_producto);
+    
+                // Verificar si es el modal de eliminación
+                if (targetModalId === '#modalEliminar') {
+                    // Actualizar el ID en el botón de eliminación
+                    $('#confirmarEliminar').data('id', id_producto);
+                } else {
+                    // AJAX para cargar información del registro en el modal de edición
+                    $.ajax({
+                        url: '{% url "editar_producto" id_producto=0 %}'.replace('0', id_producto),
+                        type: 'GET',
+                        data: { 'id_producto': id_producto },
+                        success: function (data) {
+                            console.log('Datos cargados:', data);
+                            // Llena los campos del formulario con los datos de los productos
+                            $('#clave2').val(data.clave);
+                            $('#nombreProducto2').val(data.nombre_producto);
+                            $('#extract2').val(data.extract);
+                            $('#descripcion2').val(data.descripcion);
+    
+                             // Mostrar la imagen utilizando base64
+                            if (data.imagen_base64) {
+                                $('#imagen_preview').attr('src', 'data:image/png;base64,' + data.imagen_base64);
+                            } else {
+                                // Puedes manejar el caso donde no hay imagen
+                                $('#imagen_preview').attr('src', '');  // Limpiar la imagen si no hay ninguna
+                            }
+                            },
+                        error: function (xhr, status, error) {
+                            console.error('Error al cargar la información del registro:', error);
+                            alert('Error al cargar la información del registro.');
+                        }
+                    });
                 }
             });
-        }
-    });
-
-    // Manejar clic en el botón de eliminación
-    $('#confirmarEliminar').on('click', function () {
-        var id_producto = $(this).data('id');
-        if (id_producto !== undefined) {
-            $.ajax({
-                url: '{% url "eliminar_producto" id_producto=0 %}'.replace('0', id_producto),
-                type: 'POST',
-                dataType: 'json',
-                data: { 'id_producto': id_producto },
-                success: function (response) {
-                    console.log('Respuesta del servidor:', response);
-                    alert('Registro eliminado correctamente');
-                    // Cerrar el modal después de la eliminación
-                    $('#modalEliminar').modal('hide');
-                    // Recargar la página después de la eliminación
-                    //location.reload();
-                    // Eliminar la fila correspondiente de la tabla
-                    var table = $('#myTable').DataTable();
-                    table.row('#fila_id_' + id_producto).remove().draw();
-                },
-                error: function (xhr, status, error) {
-                    console.error('Error al eliminar el registro:', error);
-                    alert('Error al eliminar el registro.');
+    
+            // Manejar clic en el botón de eliminación
+            $('#confirmarEliminar').on('click', function () {
+                var id_producto = $(this).data('id');
+                if (id_producto !== undefined) {
+                    $.ajax({
+                        url: '{% url "eliminar_producto" id_producto=0 %}'.replace('0', id_producto),
+                        type: 'POST',
+                        dataType: 'json',
+                        data: { 'id_producto': id_producto },
+                        success: function (response) {
+                            console.log('Respuesta del servidor:', response);
+                            alert('Registro eliminado correctamente');
+                            // Cerrar el modal después de la eliminación
+                            $('#modalEliminar').modal('hide');
+                            // Eliminar la fila correspondiente de la tabla
+                            var table = $('#myTable').DataTable();
+                            table.row('#fila_id_' + id_producto).remove().draw();
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error al eliminar el registro:', error);
+                            alert('Error al eliminar el registro.');
+                        }
+                    });
+                } else {
+                    console.error('ID de cotización no definido al intentar eliminar el registro.');
+                    alert('Error al eliminar el registro: ID no definido.');
                 }
             });
-        } else {
-            console.error('ID de cotización no definido al intentar eliminar el registro.');
-            alert('Error al eliminar el registro: ID no definido.');
-        }
-    });
-});
-
-      </script>
+        });
+    </script>
+    
   </table>
   </div>
 </div>

@@ -1,3 +1,6 @@
+import os
+import uuid
+from django.conf import settings
 from django.contrib import messages
 from django.shortcuts import render
 from .models import Producto
@@ -5,9 +8,6 @@ from .forms import ProductoForm
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from django.conf import settings
-import os
-import uuid
 
 # views.py
 
@@ -29,16 +29,6 @@ def create_Producto(request):
 
     return render(request, 'control-productos.html', {'form': form})
 
-"""def handle_uploaded_image(file):
-    # Lógica para guardar la imagen y obtener la ruta
-    # Puedes utilizar la biblioteca `uuid` para generar un nombre único para la imagen
-    import uuid
-    filename = str(uuid.uuid4()) + '.' + file.name.split('.')[-1]
-    filepath = 'sterowania/media' + filename
-    with open(filepath, 'wb') as destination:
-        for chunk in file.chunks():
-            destination.write(chunk)
-    return filepath"""
 def handle_uploaded_image(file):
     # Generar un nombre único para la imagen utilizando uuid
     filename = str(uuid.uuid4()) + '.' + file.name.split('.')[-1]
@@ -50,7 +40,6 @@ def handle_uploaded_image(file):
             destination.write(chunk)
 
     return filepath
-
 def listar_Producto(request):
     productos = Producto.objects.all()
     return render(request, 'control-productos.html', {'productos': productos})
