@@ -59,7 +59,7 @@ def update_Producto(request, id_producto):
        'nombre_producto':producto.nombre_producto,
        'clave':producto.clave,
        'descripcion':producto.descripcion,
-       'imagen_url':producto.imagen,
+       #'imagen_url':producto.imagen,
        'extract':producto.extract,
 
     }
