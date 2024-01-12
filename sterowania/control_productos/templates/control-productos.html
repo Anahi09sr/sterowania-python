@@ -146,18 +146,12 @@
                           </div>
                           <!-- Mostrar la vista previa de la imagen -->
                           <div class="mb-3">
-                            <label for="imagen_preview">Vista previa de la imagen:</label>
-<<<<<<< HEAD
-                            <img id="imagen_preview" src="" alt="Vista previa de la imagen" style="max-width: 50%;">
-=======
-                            <img id="imagen_preview" src="{{ producto.imagen_url}}" alt="Vista previa de la imagen" style="max-width: 50%;">
->>>>>>> 812597b (en el formulario de control prodcutos me guarda la imagen pero locaalmente, tengo problemas al vizaulizar la iamgen al ediatr el modal. no es posible vizualizarlo ya que se encuentra localmente.)
-                        </div>
-            
-                        <div class="mb-3">
-                            <label class="form-label" id="formFile" for="imagen2">Imagen</label>
-                            <input class="form-control form-control-lg" type="file" name="imagen" accept="image/png, image/gif, image/jpeg" aria-describedby="emailHelp" placeholder="Ingrese la imagen del producto" id="imagen2" />
-                        </div>
+                            <label for="imagen2">Imagen actual del producto:</label><br>
+                            <img id="imagen-preview" src="" alt="Vista previa de la imagen" class="imagen-modal">
+                          <div class="mb-3">
+                            <label class="form-label" id="formFile" for="imagen2">Cambiar la imagen del producto</label>
+                            <input class="form-control form-control-lg" type="file" name="imagen" accept="image/png, image/gif, image/jpeg" aria-describedby="emailHelp" placeholder="Ingrese la imagen del producto" id="imagen2"/>
+                          </div>
                           <div class="form-floating mb-3">
                             <textarea class="form-control form-control-lg" type="text" name="extract" aria-describedby="emailHelp" placeholder="Ingrese el extract del producto" id="extract2"></textarea>
                             <label class="form-label" for="extract2">Extracto</label>
@@ -197,87 +191,81 @@
       </tbody>
       <script>
         $(document).ready(function () {
-    $('#myTable').DataTable();
+            $('#myTable').DataTable();
+  
+            $('a[data-bs-toggle="modal"]').on('click', function () {
+                var targetModalId = $(this).data('bs-target');
+                var id_producto = $(this).data('id');
+                console.log('ID del producto:', id_producto);
+  
+                // Verificar si es el modal de eliminación
+                if (targetModalId === '#modalEliminar') {
+                    // Actualizar el ID en el botón de eliminación
+                    $('#confirmarEliminar').data('id', id_producto);
+                } else {
+                    // AJAX para cargar información del registro en el modal de edición
+                    $.ajax({
+                        url: '{% url "editar_producto" id_producto=0 %}'.replace('0', id_producto),
+                        type: 'GET',
+                        data: { 'id_producto': id_producto },
+                        success: function (data) {
+                            console.log('Datos cargados:', data);
+                            // Llena los campos del formulario con los datos de la cotización
+                            $('#clave2').val(data.clave);
+                            $('#nombreProducto2').val(data.nombre_producto);
+                            $('#imagen2').val(data.imagen);
+                            $('#extract2').val(data.extract);
+                            $('#descripcion2').val(data.descripcion);
+                            
+                              // Actualiza la vista previa de la imagen
+                            $('#imagen-preview').attr('src', 'data:image/png;base64,' + data.imagen_base64);
 
-    $('a[data-bs-toggle="modal"]').on('click', function () {
-        var targetModalId = $(this).data('bs-target');
-        var id_producto = $(this).data('id');
-        console.log('ID del producto:', id_producto);
-
-        // Verificar si es el modal de eliminación
-        if (targetModalId === '#modalEliminar') {
-            // Actualizar el ID en el botón de eliminación
-            $('#confirmarEliminar').data('id', id_producto);
-        } else {
-            // AJAX para cargar información del registro en el modal de edición
-            $.ajax({
-                url: '{% url "editar_producto" id_producto=0 %}'.replace('0', id_producto),
-                type: 'GET',
-                data: { 'id_producto': id_producto },
-                success: function (data) {
-                    console.log('Datos cargados:', data);
-                    // Llena los campos del formulario con los datos de los productos
-                    $('#clave2').val(data.clave);
-                    $('#nombreProducto2').val(data.nombre_producto);
-                    $('#extract2').val(data.extract);
-                    $('#descripcion2').val(data.descripcion);
-
-                    // Obtener la ruta local de la imagen desde los datos cargados
-                    var rutaLocalImagen = data.imagen_url;
-
-                    // Convertir la ruta local a una URL válida
-<<<<<<< HEAD
-                    //var urlImagen = 'file:///' + encodeURI(rutaLocalImagen.replace(/\\/g, '/'));
-                    var urlImagen = '{{ data.imagen_url|safe }}';
-=======
-                    var urlImagen = 'file:///' + encodeURI(rutaLocalImagen.replace(/\\/g, '/'));
-                    //var urlImagen = '{{ data.imagen|safe }}';
->>>>>>> 812597b (en el formulario de control prodcutos me guarda la imagen pero locaalmente, tengo problemas al vizaulizar la iamgen al ediatr el modal. no es posible vizualizarlo ya que se encuentra localmente.)
-
-                    // Mostrar la vista previa de la imagen
-                    $('#imagen_preview').attr('src', urlImagen);
-                },
-                error: function (xhr, status, error) {
-                    console.error('Error al cargar la información del registro:', error);
-                    alert('Error al cargar la información del registro.');
+                            // Muestra el modal
+                            $('#modalEditar').modal('show');
+                            },
+                        error: function (xhr, status, error) {
+                            console.error('Error al cargar la información del registro:', error);
+                            alert('Error al cargar la información del registro.');
+                        }
+                    });
                 }
             });
-        }
-    });
-
-    // Manejar clic en el botón de eliminación
-    $('#confirmarEliminar').on('click', function () {
-        var id_producto = $(this).data('id');
-        if (id_producto !== undefined) {
-            $.ajax({
-                url: '{% url "eliminar_producto" id_producto=0 %}'.replace('0', id_producto),
-                type: 'POST',
-                dataType: 'json',
-                data: { 'id_producto': id_producto },
-                success: function (response) {
-                    console.log('Respuesta del servidor:', response);
-                    alert('Registro eliminado correctamente');
-                    // Cerrar el modal después de la eliminación
-                    $('#modalEliminar').modal('hide');
-                    // Recargar la página después de la eliminación
-                    //location.reload();
-                    // Eliminar la fila correspondiente de la tabla
-                    var table = $('#myTable').DataTable();
-                    table.row('#fila_id_' + id_producto).remove().draw();
-                },
-                error: function (xhr, status, error) {
-                    console.error('Error al eliminar el registro:', error);
-                    alert('Error al eliminar el registro.');
-                }
-            });
-        } else {
-            console.error('ID de cotización no definido al intentar eliminar el registro.');
-            alert('Error al eliminar el registro: ID no definido.');
-        }
-    });
-});
-
-      </script>
+  
+                    // Manejar clic en el botón de eliminación
+          $('#confirmarEliminar').on('click', function () {
+              var id_producto = $(this).data('id');
+              console.log('ID del producto a eliminar:', id_producto);  // Agregar este console.log
+              if (id_producto!== undefined) {
+                $.ajax({
+                  url: '{% url "eliminar_producto" id_producto=0 %}'.replace('0', id_producto),
+                  type: 'POST',
+                  dataType: 'json',
+                  data:  { 'id_producto': id_producto },
+                  success: function (response) {
+                      console.log('Respuesta del servidor:', response);
+                      alert('Registro eliminado correctamente');
+                      // Cerrar el modal después de la eliminación
+                      $('#modalEliminar').modal('hide');
+                      // Recargar la página después de la eliminación
+                      //location.reload();
+                       // Eliminar la fila correspondiente de la tabla
+                      var table = $('#myTable').DataTable();
+                      table.row('#fila_id_' + id_producto).remove().draw();
+                  },
+                  error: function (xhr, status, error) {
+                      console.error('Error al eliminar el registro:', error);
+                      alert('Error al eliminar el registro.');
+                  }
+                });
+  
+              } else {
+                  console.error('ID de cotización no definido al intentar eliminar el registro.');
+                  alert('Error al eliminar el registro: ID no definido.');
+              }
+          });
+  
+        });
+    </script>
   </table>
   </div>
 </div>

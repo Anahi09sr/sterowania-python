@@ -41,11 +41,11 @@
       </header>
     <div class="controlMenuAdmin">
         <div class="controlMenuAdmin__box">
-            <div class="controlMenuAdmin__box__item"><a href="{% url 'control-cotizaciones' %}">Cotizaciones<img
+            <div class="controlMenuAdmin__box__item"><a href="{% url 'control' %}">Cotizaciones<img
                         src="{% static 'images/iconos/iconmonstr-tiles-list-lined.svg' %}" alt="" /></a></div>
-            <div class="controlMenuAdmin__box__item"> <a href="#">Subcategorias<img
+            <div class="controlMenuAdmin__box__item"> <a href="{% url 'listar' %}">Subcategorias<img
                         src="{% static 'images/iconos/gear-wide-connected.svg' %}" alt="" /></a></div>
-            <div class="controlMenuAdmin__box__item"><a href="#">Productos<img
+            <div class="controlMenuAdmin__box__item"><a href="{% url 'listar_producto' %}">Productos<img
                         src="{% static 'images/iconos/iconmonstr-credit-card-thin.svg' %}" alt="" /></a></div>
         </div>
     </div>

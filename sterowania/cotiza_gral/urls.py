@@ -11,5 +11,6 @@ urlpatterns = [
     path('control', login_required(views.listar_cotizacion), name='control'),
     path('editar/<int:id_cotizacion>', login_required(views.update_cotizacion), name='editar_cotizacion'),
     path('eliminar/<int:id_cotizacion>', views.delete_cotizacion, name='eliminar_cotizacion'),
+    
 ]
 #coreViews

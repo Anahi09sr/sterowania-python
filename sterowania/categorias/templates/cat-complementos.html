@@ -17,33 +17,34 @@
                   </div>
                   <div class="modal-body">
                     <div class="content-form">
-                      <form action="">
+                      <form method="POST" action="{% url 'create_cotizacionCatalogo' %}">
+                        {% csrf_token %} 
                         <div class="form-floating mb-3">
-                          <input class="form-control form-control-lg" placeholder="Ingrese su nombre completo" type="text" name="nombre" aria-describedby="emailHelp" id="nombreCliente"/>
-                          <label class="form-label" for="nombreCliente">Nombre Completo</label>
+                          <input class="form-control form-control-lg" placeholder="Ingrese su nombre completo" type="text" name="nombre_cliente" aria-describedby="emailHelp" maxlength="50" required="required" id="nombreCliente"/>
+                          <label for="nombreCliente">Nombre Completo</label>
                         </div>
                         <div class="form-floating mb-3">
-                          <input class="form-control form-control-lg" type="number" name="telefono" maxlength="2" aria-describedby="emailHelp" placeholder="Ingrese su télefono" id="exampleInputEmail1"/>
-                          <label class="form-label" for="exampleInputEmail1">Teléfono a 10 dígitos</label>
+                            <input class="form-control form-control-lg" type="tel" name="telefono" maxlength="10" aria-describedby="emailHelp" required="required" placeholder="Ingrese su télefono" id="telefono1"/>
+                            <label for="telefono1">Teléfono a 10 dígitos</label>
                         </div>
                         <div class="form-floating mb-3">
-                          <input class="form-control form-control-lg" type="email" name="email" aria-describedby="emailHelp" placeholder="Email válido" id="exampleInputEmail1"/>
-                          <label class="form-label" for="exampleInputEmail1">Email </label>
+                            <input class="form-control form-control-lg" type="email" name="email" aria-describedby="emailHelp" placeholder="Email válido" id="email1"/>
+                            <label for="email1">Email </label>
                         </div>
                         <div class="form-floating mb-3">
-                          <input class="form-control form-control-lg" type="text" name="nombre_empresa" aria-describedby="emailHelp" placeholder="Nombre de la empresa" id="exampleInputEmail1"/>
-                          <label class="form-label" for="exampleInputEmail1">Nombre de la empresa</label>
+                            <input class="form-control form-control-lg" type="text" name="nombre_empresa" aria-describedby="emailHelp" maxlength="50" placeholder="Nombre de la empresa" id="nombreEmpresa"/>
+                            <label for="nombreEmpresa">Nombre de la empresa</label>
                         </div>
                         <div class="form-floating mb-3">
-                          <textarea class="form-control form-control-lg" type="text" name="mensaje" aria-describedby="emailHelp" placeholder="Ingrese su mensaje" id="exampleInputEmail1"></textarea>
-                          <label class="form-label" for="exampleInputEmail1">Mensaje</label>
+                            <textarea class="form-control form-control-lg" type="text" name="mensaje" aria-describedby="emailHelp" maxlength="200" placeholder="Ingrese su mensaje" id="mensaje1"></textarea>
+                            <label for="mensaje1">Mensaje</label>
                         </div>
-                      </form>
-                    </div>
+                      </div>
                     <div class="modal-body__buttons"> 
                       <button class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
-                      <button class="btn btn-success" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Enviar</button>
+                      <button id="btnEnviarCotizacion" type="submit" class="btn btn-success" id="btnEnviarCotizacion">Enviar</button>
                     </div>
+                  </form>
                   </div>
                 </div>
               </div>
@@ -1100,6 +1101,32 @@
             </div>
           </div>
         </div>
+        <script>
+          $(document).ready(function() {
+              $('#miFormulario').submit(function(event) {
+                  event.preventDefault();
+      
+                  $.ajax({
+                      type: 'POST',
+                      url: '{% url "create_cotizacionCatalogo" %}',
+                      data: $('#miFormulario').serialize(),
+                      success: function(response) {
+                          if (response.success) {
+                              // Envío exitoso, abrir segundo modal
+                              $('#exampleModalToggle2').modal('show');
+                          } else {
+                              alert('Error: ' + response.message);
+                          }
+                      },
+                      error: function(error) {
+                          console.log(error);
+                          alert('Error al enviar la información.');
+                      }
+                  });
+              });
+          });
+      </script>
       </div>
     </div>
+    
 {% endblock %}

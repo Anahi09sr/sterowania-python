@@ -1,11 +1,12 @@
-# control_productos/forms.py
 from django import forms
 from .models import Producto
-import binascii
+
 class ProductoForm(forms.ModelForm):
+    # Agrega un campo personalizado para manejar la imagen
+    
+
     class Meta:
         model = Producto
-        fields = ['clave','nombre_producto', 'descripcion', 'extract', 'imagen']
-        
+        fields =  '__all__'
 
     

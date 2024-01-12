@@ -1606,3 +1606,7 @@ table .bi.bi-trash3-fill {
 .content-formContacto form button {
   width: 100px;
 }
+.imagen-modal{
+  max-width: 200px;
+  max-height: 200px;
+}
