@@ -3,6 +3,7 @@ from django.forms import ModelForm
 from .models import Cotizacion
 from django.core.validators import RegexValidator
 
+
 class CotizacionForm(forms.ModelForm):
     class Meta:
         model = Cotizacion
@@ -40,3 +41,4 @@ def clean_mensaje(self):
         mensaje= self.cleaned_data.get('mensaje')
 def clean_correo(self):
         correo = self.cleaned_data.get('correo')
+

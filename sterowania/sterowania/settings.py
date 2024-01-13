@@ -54,6 +54,8 @@ INSTALLED_APPS = [
     'control_productos',
     'control_subcategorias',
     'sterowania',
+    
+    
 
 ]
 
