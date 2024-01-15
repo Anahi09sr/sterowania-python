@@ -7,7 +7,7 @@ from login.views import login_user
 from . import views
 urlpatterns = [
     path('create_cotizacion',views.create_cotizacion, name='create_cotizacion'),
-    path('save', login_required(views.save_cotizacion), name='save'),
+    #path('save',views.save_cotizacion, name='save'),
     path('control', login_required(views.listar_cotizacion), name='control'),
     path('editar/<int:id_cotizacion>', login_required(views.update_cotizacion), name='editar_cotizacion'),
     path('eliminar/<int:id_cotizacion>', views.delete_cotizacion, name='eliminar_cotizacion'),

@@ -1295,6 +1295,9 @@ footer .footer__foot .link__jmc a {
 .topnav .search-container button:hover {
   background: #6C6864;
 }
+table {
+  overflow: auto;
+}
 table .bi.bi-pencil-square {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
@@ -1383,6 +1386,7 @@ table .bi.bi-trash3-fill {
 .modal .modal-header-unico__detail-txt {
   text-align: left;
 }
+
 .modal .modal-body__buttons {
   display: -webkit-box;
   display: -ms-flexbox;

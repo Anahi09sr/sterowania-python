@@ -7,11 +7,6 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import requests
 
-
-def create_cotizacion(request):
-    # If the request method is POST, process the form data
-    return render(request, 'cotiza_gral.html')
-
 def validate_recaptcha(request):
     recaptcha_response = request.POST.get('g-recaptcha-response')
     data = {
@@ -22,7 +17,7 @@ def validate_recaptcha(request):
     response = r.json()
     return response['success']
 
-def save_cotizacion(request):
+def create_cotizacion(request):
     form = CotizacionForm()  # Mueve la creación del formulario fuera del bloque condicional
 
     if request.method == 'POST':
@@ -32,7 +27,7 @@ def save_cotizacion(request):
             if form.is_valid():
                 form.save()
                 messages.success(request, 'Datos insertados correctamente.')
-                return redirect('save')
+                return redirect('create_cotizacion')
             else:
                 messages.error(request, 'Error al insertar datos. Revise los datos.')
                 messages.error(request, form.errors)  # Agrega este mensaje de error para obtener más detalles
@@ -41,26 +36,7 @@ def save_cotizacion(request):
             messages.error(request, 'Captcha no válido. Por favor, inténtalo de nuevo.')
 
     return render(request, 'cotiza_gral.html', {'form': form})
-def contact(request):
-    if request.method == 'POST':
-        if validate_recaptcha(request):
-            form = CotizacionForm(request.POST)
-            if form.is_valid():
-                # Procesa los datos del formulario
-                # ...
-                messages.success(request, 'Formulario enviado con éxito.')
-            else:
-                # Muestra un mensaje de error del formulario
-                messages.error(request, 'Error en el formulario. Revise los datos.')
-                messages.error(request, form.errors)  # Mensajes detallados de error
-        else:
-            # Muestra un mensaje de error del reCAPTCHA
-            messages.error(request, 'Captcha no válido. Por favor, inténtalo de nuevo.')
-    else:
-        # Muestra el formulario inicial
-        form = CotizacionForm()
 
-    return render(request, 'cotiza_gral.html', {'form': form})
 def listar_cotizacion(request):
     cotizaciones = Cotizacion.objects.all()
     return render (request, "control-cotiza.html", {"cotizaciones":cotizaciones})

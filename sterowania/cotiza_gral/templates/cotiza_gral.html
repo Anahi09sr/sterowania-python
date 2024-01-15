@@ -13,7 +13,7 @@
       <div class="content-form content-formContacto">
         <h3 class="content-formContacto-title">Datos del contacto</h3>
         
-          <form id="formulario" method="POST" action="{% url 'save' %}">
+          <form id="formulario" method="POST" action="{% url 'create_cotizacion' %}">
             {% csrf_token %} 
             <div class="form-floating mb-3">
                 <input class="form-control form-control-lg" placeholder="Ingrese su nombre completo" type="text" name="nombre_cliente" aria-describedby="emailHelp" maxlength="50" required="required" id="nombreCliente"/>

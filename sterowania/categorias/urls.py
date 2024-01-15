@@ -9,5 +9,5 @@ urlpatterns =[
     path('senalamientos',views.senalamientos, name='senalamientos'),
     path('complementos',views.complementos, name='complementos'),
     path('servicios',views.servicios, name='servicios'),
-    path('create_cotizacionCatalogo',views.create_cotizacionCatalogo, name='create_cotizacionCatalogo'),
+    path('create_cotizacionCategoria',views.create_cotizacionCategoria, name='create_cotizacionCategoria'),
 ]

@@ -17,33 +17,36 @@
                   </div>
                   <div class="modal-body">
                     <div class="content-form">
-                      <form action="">
+                      <form id="CotizacionForm" method="POST" action="{% url 'create_cotizacionCategoria' %}">
+                        {% csrf_token %} 
                         <div class="form-floating mb-3">
-                          <input class="form-control form-control-lg" placeholder="Ingrese su nombre completo" type="text" name="nombre" aria-describedby="emailHelp" id="nombreCliente"/>
-                          <label class="form-label" for="nombreCliente">Nombre Completo</label>
+                          <input class="form-control form-control-lg" placeholder="Ingrese su nombre completo" type="text" name="nombre_cliente" aria-describedby="emailHelp" maxlength="50" required="required" id="nombreCliente"/>
+                          <label for="nombreCliente">Nombre Completo</label>
                         </div>
                         <div class="form-floating mb-3">
-                          <input class="form-control form-control-lg" type="number" name="telefono" maxlength="2" aria-describedby="emailHelp" placeholder="Ingrese su télefono" id="exampleInputEmail1"/>
-                          <label class="form-label" for="exampleInputEmail1">Teléfono a 10 dígitos</label>
+                            <input class="form-control form-control-lg" type="tel" name="telefono" maxlength="10" aria-describedby="emailHelp" required="required" placeholder="Ingrese su télefono" id="telefono1"/>
+                            <label for="telefono1">Teléfono a 10 dígitos</label>
                         </div>
                         <div class="form-floating mb-3">
-                          <input class="form-control form-control-lg" type="email" name="email" aria-describedby="emailHelp" placeholder="Email válido" id="exampleInputEmail1"/>
-                          <label class="form-label" for="exampleInputEmail1">Email </label>
+                            <input class="form-control form-control-lg" type="email" name="email" aria-describedby="emailHelp" placeholder="Email válido" id="email1"/>
+                            <label for="email1">Email </label>
                         </div>
                         <div class="form-floating mb-3">
-                          <input class="form-control form-control-lg" type="text" name="nombre_empresa" aria-describedby="emailHelp" placeholder="Nombre de la empresa" id="exampleInputEmail1"/>
-                          <label class="form-label" for="exampleInputEmail1">Nombre de la empresa</label>
+                            <input class="form-control form-control-lg" type="text" name="nombre_empresa" aria-describedby="emailHelp" maxlength="50" placeholder="Nombre de la empresa" id="nombreEmpresa"/>
+                            <label for="nombreEmpresa">Nombre de la empresa</label>
                         </div>
                         <div class="form-floating mb-3">
-                          <textarea class="form-control form-control-lg" type="text" name="mensaje" aria-describedby="emailHelp" placeholder="Ingrese su mensaje" id="exampleInputEmail1"></textarea>
-                          <label class="form-label" for="exampleInputEmail1">Mensaje</label>
+                            <textarea class="form-control form-control-lg" type="text" name="mensaje" aria-describedby="emailHelp" maxlength="200" placeholder="Ingrese su mensaje" id="mensaje1"></textarea>
+                            <label for="mensaje1">Mensaje</label>
                         </div>
-                      </form>
-                    </div>
+                        <!--Muestra los errores de validacion, mediante alertas.-->
+                        <div id="alert-container"></div>
+                      </div>
                     <div class="modal-body__buttons"> 
                       <button class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
-                      <button class="btn btn-success" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Enviar</button>
+                      <button  type="button" class="btn btn-success" onclick="validarYEnviar()" >Enviar</button>
                     </div>
+                  </form>
                   </div>
                 </div>
               </div>
@@ -1430,4 +1433,64 @@
         </div>
       </div>
     </div>
+    <script>
+      function mostrarAlerta(tipo, mensajes) {
+          // Crear elemento de alerta de Bootstrap
+          var alerta = document.createElement('div');
+          alerta.className = 'alert alert-' + tipo + ' alert-dismissible fade show';
+          
+          // Agregar mensajes de error al contenido de la alerta
+          mensajes.forEach(function(mensaje) {
+              alerta.innerHTML +=  mensaje + '<br>' ;
+          });
+          // Agregar el botón de cierre a la alerta
+          //alerta.innerHTML += '<button type="button" class="close" data-dismiss="alert">&times;</button>';
+    
+          // Agregar la alerta al contenedor
+          document.getElementById('alert-container').appendChild(alerta);
+      }
+      function mostrarExito() {
+        // Mostrar mensaje de éxito
+        mostrarAlerta('success', ['Formulario enviado con éxito']);
+    }
+      
+      function validarYEnviar() {
+          // Lógica de validación...
+          var errores = [];
+          // Lógica de validación adicional si es necesario
+          var telefono = document.getElementById('telefono1').value;
+          var nombreCliente = document.getElementById('nombreCliente').value;
+          var nombreEmpresa = document.getElementById('nombreEmpresa').value;
+          var email = document.getElementById('email1').value;
+          var mensaje = document.getElementById('mensaje1').value;
+    
+          // Ejemplo de uso de mostrarAlerta
+          if (!/^\+?1?\d{9,15}$/.test(telefono)) {
+              errores.push('Ingrese un número de teléfono válido');
+          }
+          if (!/^[a-zA-Z\s]+$/.test(nombreCliente)) {
+              errores.push('El nombre del cliente debe contener solo letras o espacios.');
+          }
+          if (!/^[a-zA-Z0-9\s]+$/.test(nombreEmpresa)) {
+              errores.push('El nombre de la empresa solo puede contener letras y números.');
+          }
+          if (!/\S+@\S+\.\S+/.test(email)) {
+              errores.push('Ingrese una dirección de correo electrónico válida.');
+          }
+          if (!/^[a-zA-Z\s\.,\'"-]+$/.test(mensaje)) {
+              errores.push('El mensaje debe contener solo letras, espacios y caracteres permitidos.');
+          }
+    
+          // Mostrar alerta con errores si los hay
+          if (errores.length > 0) {
+              mostrarAlerta('danger', errores);
+          } else {
+              // Enviar el formulario si la validación es exitosa
+              document.getElementById('CotizacionForm').submit();
+                // Mostrar mensaje de éxito
+              mostrarAlerta('success', ['Formulario enviado con éxito']);
+          
+          }
+      }
+    </script>
     {% endblock %}
