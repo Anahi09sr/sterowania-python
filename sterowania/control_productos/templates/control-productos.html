@@ -120,7 +120,7 @@
                     </div>
                     <div class="modal-body">
                       <div class="content-form">
-                        <form  method="POST" action="#" enctype="multipart/form-data">
+                        <form  method="POST" id="editarPdroductoForm" action="#" enctype="multipart/form-data">
                           {% csrf_token %} 
                           <div class="form-floating mb-3">
                             <input class="form-control form-control-lg" placeholder="Ingrese la clave del producto" type="number" name="clave" maxlength="4" aria-describedby="emailHelp" id="clave2"/>
@@ -132,17 +132,17 @@
                           </div>
                           <div class="form-floating mb-3">
                             <lablel class="form-label">Categoría</lablel>
-                            <select class="form-control form-control-lg form-select" type="email" name="email" aria-describedby="emailHelp" placeholder="Email válido" id="exampleInputEmail1">
-                              <option>Semáforos</option>
-                              <option>Postes</option>
-                              <option>Señalamientos</option>
-                              <option>Complementos Viales</option>
-                              <option>Servicios de diseño</option>
-                            </select>
+                            <select class="form-control form-control-lg form-select" name="id_categoria" aria-describedby="emailHelp" placeholder="" id="nombreCategoria2">
+                              <option value="1">Semáforos</option>
+                              <option value="2">Postes</option>
+                              <option value="3">Señalamientos</option>
+                              <option value="4">Complementos Viales</option>
+                              <option value="5">Servicios de diseño</option>
+                          </select>
                           </div>
                           <div class="form-floating mb-3">
-                            <input class="form-control form-control-lg" type="text" name="telefono" maxlength="2" aria-describedby="emailHelp" placeholder="Ingrese su télefono" id="exampleInputEmail1"/>
-                            <label class="form-label" for="exampleInputEmail1">Nombre de la subcategoría</label>
+                            <input class="form-control form-control-lg" type="text" name="nombre_subcategoria" maxlength="20" aria-describedby="emailHelp" placeholder="Ingrese nombre de subcategoria" id="nombreSubcategoria2"/>
+                            <label class="form-label" for="nombreSubcategoria2">Nombre de la subcategoría</label>
                           </div>
                           <!-- Mostrar la vista previa de la imagen -->
                           <div class="mb-3">
@@ -160,13 +160,13 @@
                             <textarea class="form-control form-control-lg" type="text" name="descripcion" aria-describedby="emailHelp" placeholder="Ingrese la descripción del producto" id="descripcion2"></textarea>
                             <label class="form-label" for="descripcion2">Descripción</label>
                           </div>
-                        </form>
                       </div>
                       <div class="modal-body__buttons"> 
                         <button class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
-                        <button class="btn btn-success" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Enviar</button>
+                        <button type="submit" class="btn btn-success">Guardar cambios</button>
                       </div>
                     </div>
+                  </form>
                   </div>
                 </div>
               </div>
@@ -211,6 +211,7 @@
                         success: function (data) {
                             console.log('Datos cargados:', data);
                             // Llena los campos del formulario con los datos de la cotización
+                            $('#editarPdroductoForm').attr('action',  '{% url "editar_producto" id_producto=0 %}'.replace('0', id_producto)),
                             $('#clave2').val(data.clave);
                             $('#nombreProducto2').val(data.nombre_producto);
                             $('#imagen2').val(data.imagen);

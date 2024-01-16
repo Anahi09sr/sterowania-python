@@ -116,72 +116,71 @@
     </table>
     <script>
       $(document).ready(function () {
-          $('#myTable').DataTable();
-  
-          $('a[data-bs-toggle="modal"]').on('click', function () {
-              var targetModalId = $(this).data('bs-target');
-              var id_cotizacion = $(this).data('id');
-              console.log('ID de cotización:', id_cotizacion);
-  
-              // Verificar si es el modal de eliminación
-              if (targetModalId === '#modalEliminar') {
-                  // Actualizar el ID en el botón de eliminación
-                  $('#confirmarEliminar').data('id', id_cotizacion);
-              } else {
-                  // AJAX para cargar información del registro en el modal de edición
-                  $.ajax({
-                      url: '{% url "editar_cotizacion" id_cotizacion=0 %}'.replace('0', id_cotizacion),
-                      type: 'GET',
-                      data: { 'id_cotizacion': id_cotizacion },
-                      success: function (data) {
-                          console.log('Datos cargados:', data);
-                          // Llena los campos del formulario con los datos de la cotización
-                          $('#nombreCliente').val(data.nombre_cliente);
-                          $('#telefono1').val(data.telefono);
-                          $('#email1').val(data.email);
-                          $('#nombreEmpresa').val(data.nombre_empresa);
-                          $('#mensaje1').val(data.mensaje);
-                      },
-                      error: function (xhr, status, error) {
-                          console.error('Error al cargar la información del registro:', error);
-                          alert('Error al cargar la información del registro.');
-                      }
-                  });
+        $('#myTable').DataTable();
+    
+        $('a[data-bs-toggle="modal"]').on('click', function () {
+          var targetModalId = $(this).data('bs-target');
+          var id_cotizacion = $(this).data('id');
+          console.log('ID de cotización:', id_cotizacion);
+    
+          // Verificar si es el modal de eliminación
+          if (targetModalId === '#modalEliminar') {
+            // Actualizar el ID en el botón de eliminación
+            $('#confirmarEliminar').data('id', id_cotizacion);
+          } else {
+            // AJAX para cargar información del registro en el modal de edición
+            $.ajax({
+              url: '{% url "editar_cotizacion" id_cotizacion=0 %}'.replace('0', id_cotizacion),
+              type: 'GET',
+              success: function (data) {
+                console.log('Datos cargados:', data);
+                // Llena los campos del formulario con los datos de la cotización
+                $('#nombreCliente').val(data.nombre_cliente);
+                $('#telefono1').val(data.telefono);
+                $('#email1').val(data.email);
+                $('#nombreEmpresa').val(data.nombre_empresa);
+                $('#mensaje1').val(data.mensaje);
+              },
+              error: function (xhr, status, error) {
+                console.error('Error al cargar la información del registro:', error);
+                alert('Error al cargar la información del registro.');
               }
-          });
-  
-                  // Manejar clic en el botón de eliminación
-        $('#confirmarEliminar').on('click', function () {
-            var id_cotizacion = $(this).data('id');
-            if (id_cotizacion!== undefined) {
-              $.ajax({
-                url: '{% url "eliminar_cotizacion" id_cotizacion=0 %}'.replace('0', id_cotizacion),
-                type: 'POST',
-                dataType: 'json',
-                data:  { 'id_cotizacion': id_cotizacion },
-                success: function (response) {
-                    console.log('Respuesta del servidor:', response);
-                    alert('Registro eliminado correctamente');
-                    // Cerrar el modal después de la eliminación
-                    $('#modalEliminar').modal('hide');
-                    // Recargar la página después de la eliminación
-                    location.reload();
-                },
-                error: function (xhr, status, error) {
-                    console.error('Error al eliminar el registro:', error);
-                    alert('Error al eliminar el registro.');
-                }
-              });
-
-            } else {
-                console.error('ID de cotización no definido al intentar eliminar el registro.');
-                alert('Error al eliminar el registro: ID no definido.');
-            }
+            });
+          }
         });
-
+    
+        // Manejar clic en el botón de eliminación
+        $('#confirmarEliminar').on('click', function () {
+          var id_cotizacion = $(this).data('id');
+          if (id_cotizacion !== undefined) {
+            $.ajax({
+              url: '{% url "eliminar_cotizacion" id_cotizacion=0 %}'.replace('0', id_cotizacion),
+              type: 'POST',
+              dataType: 'json',
+              data: { 'id_cotizacion': id_cotizacion },
+              success: function (response) {
+                console.log('Respuesta del servidor:', response);
+                alert('Registro eliminado correctamente');
+                // Cerrar el modal después de la eliminación
+                $('#modalEliminar').modal('hide');
+                // Recargar la página después de la eliminación
+                location.reload();
+              },
+              error: function (xhr, status, error) {
+                console.error('Error al eliminar el registro:', error);
+                alert('Error al eliminar el registro.');
+              }
+            });
+    
+          } else {
+            console.error('ID de cotización no definido al intentar eliminar el registro.');
+            alert('Error al eliminar el registro: ID no definido.');
+          }
+        });
+    
       });
-  </script>
-  
+    </script>
+    
   </div>
 </div>
 {% endblock%}

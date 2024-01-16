@@ -40,7 +40,7 @@ def create_cotizacion(request):
 def listar_cotizacion(request):
     cotizaciones = Cotizacion.objects.all()
     return render (request, "control-cotiza.html", {"cotizaciones":cotizaciones})
-def update_cotizacion(request, id_cotizacion):
+"""def update_cotizacion(request, id_cotizacion):
     cotizacion = get_object_or_404(Cotizacion, id_cotizacion=id_cotizacion)
     data = {
         'nombre_cliente':cotizacion.nombre_cliente,
@@ -50,7 +50,29 @@ def update_cotizacion(request, id_cotizacion):
         'mensaje': cotizacion.mensaje,
     }
     print(data)
-    return JsonResponse(data)
+    return JsonResponse(data)"""
+
+def update_cotizacion(request, id_cotizacion):
+    cotizacion = get_object_or_404(Cotizacion, id_cotizacion=id_cotizacion)
+
+    if request.method == 'POST':
+        form = CotizacionForm(request.POST, instance=cotizacion)
+        if form.is_valid():
+            form.save()
+            data = {'message': 'Datos actualizados correctamente'}
+            return JsonResponse(data)
+        else:
+            data = {'error': 'Error al actualizar datos. Revise los datos.'}
+            return JsonResponse(data)
+    else:
+        data = {
+            'nombre_cliente': cotizacion.nombre_cliente,
+            'telefono': cotizacion.telefono,
+            'email': cotizacion.email,
+            'nombre_empresa': cotizacion.nombre_empresa,
+            'mensaje': cotizacion.mensaje,
+        }
+        return JsonResponse(data)
 @csrf_exempt
 def delete_cotizacion(request, id_cotizacion):
     if request.method == 'POST':

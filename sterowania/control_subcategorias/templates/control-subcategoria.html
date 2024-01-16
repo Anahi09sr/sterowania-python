@@ -81,7 +81,8 @@
       </thead>
       <tbody>
         {% for subcategoria in subcategorias %}
-        <tr>
+        <!--El id de tr, funciona para cuando se elimina un registro no recargue la pagina, solo la tabla-->
+        <tr id="fila_id_{{subcategoria.id_subcategoria}}">
             <td>{{ subcategoria.id_subcategoria }}</td>
             <td>{{ subcategoria.nombre_subcategoria }}</td>
             <td>{{ subcategoria.id_categoria.nombre_categoria }}</td>
@@ -99,7 +100,7 @@
                     </div>
                     <div class="modal-body">
                       <div class="content-form">
-                        <form action="#" method="POST">
+                        <form action="#"  id="editarSubcategoriaForm" method="POST">
                           {% csrf_token %} 
                           <div class="form-floating mb-3">
                             <input class="form-control form-control-lg" type="text" name="nombre_subcategoria" maxlength="20" aria-describedby="emailHelp" placeholder="Ingrese nombre de subcategoria" id="nombreSubcategoria2"/>
@@ -115,28 +116,13 @@
                               <option value="5">Servicios de diseño</option>
                           </select>
                           </div>
-                        </form>
                       </div>
                       <div class="modal-body__buttons"> 
                         <button class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
-                        <button class="btn btn-success" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Enviar</button>
+                        <button type="submit" class="btn btn-success">Guardar cambios</button>
                       </div>
                     </div>
-                  </div>
-                </div>
-              </div>
-              <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
-                <div class="modal-dialog modal-dialog-centered">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalToggleLabel2">Solicitud </h5>
-                      <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">Cotización realizada con exito!</div>
-                    <div class="modal-footer">
-                      <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal">Cancelar </button>
-                      <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Aceptar</button>
-                    </div>
+                  </form>
                   </div>
                 </div>
               </div>
@@ -159,21 +145,23 @@
           
     </tbody>
     <script>
+      
       $(document).ready(function () {
         $('#myTable').DataTable();
     
         // Función para mostrar la alerta cuando se cierra el modal
-        function mostrarAlerta() {
-          var successMessage = document.querySelector('.alert-success');
-          if (successMessage) {
-            alert('Datos enviados con éxito!');
-          }
-        }
+        //function mostrarAlerta() {
+          //var successMessage = document.querySelector('.alert-success');
+          //if (successMessage) {
+          //  alert('Datos enviados con éxito!');
+          //}
+        //}
     
         $('a[data-bs-toggle="modal"]').on('click', function () {
           var targetModalId = $(this).data('bs-target');
           var id_subcategoria = $(this).data('id');
-          console.log('ID de la subcategoria:', id_subcategoria);
+          //Cconole.log permite visualizar en id del registro en la consola del navegador
+          //console.log('ID de la subcategoria:', id_subcategoria);
     
           // Verificar si es el modal de eliminación
           if (targetModalId === '#modalEliminar') {
@@ -182,20 +170,23 @@
           } else {
             // AJAX para cargar información del registro en el modal de edición
             $.ajax({
-              url: '{% url "editar_subcategoria" id_subcategoria=0 %}'.replace('0', id_subcategoria),
-              type: 'GET',
-              data: { 'id_subcategoria': id_subcategoria },
-              success: function (data) {
-                console.log('Datos cargados:', data);
-                // formulario con los datos de la subcategoria
-                $('#nombreSubcategoria2').val(data.nombre_subcategoria);
-                $('#nombreCategoria2').val(data.id_categoria);  // Actualizar el campo id_categoria
-              },
-              error: function (xhr, status, error) {
-                console.error('Error al cargar la información del registro:', error);
-                alert('Error al cargar la información del registro.');
-              }
+                url: '{% url "editar_subcategoria" id_subcategoria=0 %}'.replace('0', id_subcategoria),
+                type: 'GET',
+                data: { 'id_subcategoria': id_subcategoria },
+                success: function (data) {
+                    // Permite ver la informacion del registro en consola.
+                    //console.log('Datos cargados:', data);
+                    // formulario con los datos de la subcategoria
+                    $('#editarSubcategoriaForm').attr('action', '{% url "editar_subcategoria" id_subcategoria=0 %}'.replace('0', id_subcategoria));
+                    $('#nombreSubcategoria2').val(data.nombre_subcategoria);
+                    $('#nombreCategoria2').val(data.id_categoria);  // Actualizar el campo id_categoria
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error al cargar la información del registro:', error);
+                    alert('Error al cargar la información del registro.');
+                }
             });
+
           }
         });
     
@@ -213,8 +204,11 @@
                 alert('Registro eliminado correctamente');
                 // Cerrar el modal después de la eliminación
                 $('#modalEliminar').modal('hide');
-                // Recargar la página después de la eliminación
-                location.reload();
+                 // Recargar la página después de la eliminación
+                //location.reload();
+                  // Eliminar la fila correspondiente de la tabla
+                var table = $('#myTable').DataTable();
+                table.row('#fila_id_' + id_subcategoria).remove().draw();
               },
               error: function (xhr, status, error) {
                 console.error('Error al eliminar el registro:', error);
@@ -228,10 +222,6 @@
           }
         });
     
-        // Mostrar la alerta cuando se cierra el modal
-        $('#exampleModalToggle2').on('hidden.bs.modal', mostrarAlerta);
-        $('#modalEliminar').on('hidden.bs.modal', mostrarAlerta);
-        $('#modalEditar').on('hidden.bs.modal', mostrarAlerta);
     
       });
     </script>
