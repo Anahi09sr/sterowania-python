@@ -14,6 +14,10 @@ def create_Producto(request):
         form = ProductoForm(request.POST, request.FILES)
         if form.is_valid():
             producto_instance = form.save(commit=False)
+            
+            # Asignar las llaves foráneas desde el formulario
+            producto_instance.id_categoria = form.cleaned_data['id_categoria']
+            #producto_instance.id_subcategoria = form.cleaned_data['id_subcategoria']
 
             if 'imagen' in request.FILES:
                 imagen = request.FILES['imagen']
@@ -22,6 +26,7 @@ def create_Producto(request):
                 producto_instance.imagen = imagen.read()
                 
             producto_instance.save()
+            
 
             messages.success(request, 'Datos insertados correctamente.')
             return redirect('listar_producto')
@@ -52,7 +57,7 @@ def listar_Producto(request):
     }
 
     return JsonResponse(data)"""
-def update_Producto(request, id_producto):
+"""def update_Producto(request, id_producto):
     producto = get_object_or_404(Producto, id_producto=id_producto)
     imagen_base64 = None
 
@@ -69,6 +74,7 @@ def update_Producto(request, id_producto):
                 producto_instance.imagen = imagen.read()
 
             producto_instance.save()
+            
             data = {'message': 'Datos actualizados correctamente'}
             return redirect('listar')
         else:
@@ -81,9 +87,54 @@ def update_Producto(request, id_producto):
             'descripcion': producto.descripcion,
             'extract': producto.extract,
             'imagen_base64': imagen_base64,
+            
+            
+        }
+        
+
+        return JsonResponse(data)"""
+def update_Producto(request, id_producto):
+    producto = get_object_or_404(Producto, id_producto=id_producto)
+    imagen_base64 = None
+
+    if producto.imagen and isinstance(producto.imagen, bytes):
+        imagen_base64 = base64.b64encode(producto.imagen).decode('utf-8')
+
+    if request.method == 'POST':
+        form = ProductoForm(request.POST, request.FILES, instance=producto)
+        if form.is_valid():
+            producto_instance = form.save(commit=False)
+
+            if 'imagen' in request.FILES:
+                imagen = request.FILES['imagen']
+                producto_instance.imagen = imagen.read()
+
+            producto_instance.save()
+
+            # Incluye el ID de la categoría en la respuesta
+            data = {
+                'message': 'Datos actualizados correctamente',
+                'id_categoria': producto_instance.id_categoria_id,
+            }
+            return JsonResponse(data)
+        else:
+            data = {'error': 'Error al actualizar datos. Revise los datos.'}
+            return JsonResponse(data)
+    else:
+        data = {
+            'nombre_producto': producto.nombre_producto,
+            'clave': producto.clave,
+            'descripcion': producto.descripcion,
+            'extract': producto.extract,
+            'imagen_base64': imagen_base64,
+            'id_categoria': producto.id_categoria_id,
+            #'id_categoria': producto.id_categoria.nombre_categoria,
+            #'id_categoria': producto.id_categoria.nombre_categoria if producto.id_categoria else None,
+
         }
 
         return JsonResponse(data)
+
 @csrf_exempt    
 def delete_Producto(request, id_producto):
     # Obtiene la instancia del producto

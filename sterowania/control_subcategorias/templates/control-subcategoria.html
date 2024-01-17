@@ -179,7 +179,7 @@
                     // formulario con los datos de la subcategoria
                     $('#editarSubcategoriaForm').attr('action', '{% url "editar_subcategoria" id_subcategoria=0 %}'.replace('0', id_subcategoria));
                     $('#nombreSubcategoria2').val(data.nombre_subcategoria);
-                    $('#nombreCategoria2').val(data.id_categoria);  // Actualizar el campo id_categoria
+                   // $('#nombreCategoria2').val(data.id_categoria);  // Actualizar el campo id_categoria
                 },
                 error: function (xhr, status, error) {
                     console.error('Error al cargar la información del registro:', error);
