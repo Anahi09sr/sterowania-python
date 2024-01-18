@@ -24,7 +24,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('index/',include('core.urls')),
+    path('',include('core.urls')),
     path('catalogo/',include('catalogo.urls')),
     path('categorias/',include('categorias.urls')),
     path('cotizacion/',include('cotiza_gral.urls')),
