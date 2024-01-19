@@ -21,19 +21,19 @@
               <form method="POST" action="{%url 'create'%}">
                 {% csrf_token %} 
                 <div class="form-floating mb-3">
-                  <input class="form-control form-control-lg" type="text" name="nombre_subcategoria" maxlength="20" aria-describedby="emailHelp" placeholder="Ingrese nombre de subcategoria" id="nombreSubcategoria1"/>
+                  <input class="form-control form-control-lg" type="text" name="nombre_subcategoria" maxlength="100" aria-describedby="emailHelp" placeholder="Ingrese nombre de subcategoria" id="nombreSubcategoria1"/>
                   <label class="form-label" for="nombreSubcategoria1">Nombre de la subcategoría</label>
                 </div>
-                <div class="form-floating mb-3">
-                  <lablel class="form-label">Categoría</lablel>
+                <div class="form-group mb-3">
+                  <label class="form-label" for="nombreCategoria1">Categoría</label>
                   <select class="form-control form-control-lg form-select" name="id_categoria" aria-describedby="emailHelp" placeholder="" id="nombreCategoria1">
-                    <option value="1">Semáforos</option>
-                    <option value="2">Postes</option>
-                    <option value="3">Señalamientos</option>
-                    <option value="4">Complementos Viales</option>
-                    <option value="5">Servicios de diseño</option>
-                </select>
-                </div>
+                      <option value="1">Semáforos</option>
+                      <option value="2">Postes</option>
+                      <option value="3">Señalamientos</option>
+                      <option value="4">Complementos Viales</option>
+                      <option value="5">Servicios de diseño</option>
+                  </select>
+              </div>
               
               {% if messages %}
                 <div class="row">
@@ -103,19 +103,19 @@
                         <form action="#"  id="editarSubcategoriaForm" method="POST">
                           {% csrf_token %} 
                           <div class="form-floating mb-3">
-                            <input class="form-control form-control-lg" type="text" name="nombre_subcategoria" maxlength="20" aria-describedby="emailHelp" placeholder="Ingrese nombre de subcategoria" id="nombreSubcategoria2"/>
+                            <input class="form-control form-control-lg" type="text" name="nombre_subcategoria" maxlength="100" aria-describedby="emailHelp" placeholder="Ingrese nombre de subcategoria" id="nombreSubcategoria2"/>
                             <label class="form-label" for="nombreSubcategoria2">Nombre de la subcategoría</label>
                           </div>
-                          <div class="form-floating mb-3">
-                            <lablel class="form-label">Categoría</lablel>
+                          <div class="form-group mb-3">
+                            <label class="form-label" for="nombreCategoria2">Categoría</label>
                             <select class="form-control form-control-lg form-select" name="id_categoria" aria-describedby="emailHelp" placeholder="" id="nombreCategoria2">
-                              <option value="1">Semáforos</option>
-                              <option value="2">Postes</option>
-                              <option value="3">Señalamientos</option>
-                              <option value="4">Complementos Viales</option>
-                              <option value="5">Servicios de diseño</option>
-                          </select>
-                          </div>
+                                <option value="1">Semáforos</option>
+                                <option value="2">Postes</option>
+                                <option value="3">Señalamientos</option>
+                                <option value="4">Complementos Viales</option>
+                                <option value="5">Servicios de diseño</option>
+                            </select>
+                        </div>
                       </div>
                       <div class="modal-body__buttons"> 
                         <button class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>

@@ -35,10 +35,12 @@
                       <option value="5">Servicios de diseño</option>
                   </select>
               </div>
-                <div class="form-floating mb-3">
-                  <input class="form-control form-control-lg" type="text" name="id_subcategoria" maxlength="20" aria-describedby="emailHelp" placeholder="Ingrese nombre de subcategoria" id="nombreSubcategoria2"/>
-                  <label class="form-label" for="nombreSubcategoria2">Nombre de la subcategoría</label>
-                </div>
+              <div class="form-group mb-3">
+                <label class="form-label" for="nombreSubcategoria1">Subcategoría</label>
+                <select class="form-control form-control-lg form-select" name="id_subcategoria" aria-describedby="emailHelp" placeholder="" id="nombreSubcategoria1">
+                    <!-- Las opciones se llenarán dinámicamente con JavaScript -->
+                </select>
+            </div>
                 <div class="mb-3">
                   <label class="form-label" id="formFile" for="imagen1">Imagen</label>
                   <input class="form-control form-control-lg" type="file" name="imagen" aria-describedby="emailHelp" placeholder="Ingrese la imagen del producto" id="imagen1"/>
@@ -105,7 +107,7 @@
           <td>{{ producto.clave}}</td>
           <td>{{ producto.nombre_producto}}</td>
           <td>{{producto.id_categoria.nombre_categoria }}</td>
-          <td>Semáforo Vehicular</td>
+          <td>{{producto.id_subcategoria.nombre_subcategoria}}</td>
           <td> <a href="{% url 'editar_producto' producto.id_producto %}" data-id="{{producto.id_producto }}"  data-bs-toggle="modal" data-bs-target="#modalEditar" title="Modificar"> <i class="bi bi-pencil-square"></i></a></td>
           <td> <a href="{% url 'eliminar_producto' producto.id_producto %}" data-id="{{producto.id_producto }}" data-bs-toggle="modal" data-bs-target="#modalEliminar" title="Eliminar"> <i class="bi bi-trash3-fill"></i></a></td>
         </tr>
@@ -140,11 +142,13 @@
                                 <option value="5">Servicios de diseño</option>
                             </select>
                         </div>
-                        
-                          <div class="form-floating mb-3">
-                            <input class="form-control form-control-lg" type="text" name="nombre_subcategoria" maxlength="20" aria-describedby="emailHelp" placeholder="Ingrese nombre de subcategoria" id="nombreSubcategoria2"/>
-                            <label class="form-label" for="nombreSubcategoria2">Nombre de la subcategoría</label>
-                          </div>
+                        <div class="form-group mb-3">
+                          <label class="form-label" for="nombreSubcategoria2">Subcategoría</label>
+                          <select class="form-control form-control-lg form-select" name="id_subcategoria" aria-describedby="emailHelp" placeholder="" id="nombreSubcategoria2">
+                              <!-- Las opciones se llenarán dinámicamente con JavaScript -->
+                          </select>
+                      </div>
+                      
                           <!-- Mostrar la vista previa de la imagen -->
                           <div class="mb-3">
                             <label for="imagen2">Imagen actual del producto:</label><br>
@@ -221,6 +225,7 @@
                               // Actualiza la vista previa de la imagen
                             $('#imagen-preview').attr('src', 'data:image/png;base64,' + data.imagen_base64);
                             $('#nombreCategoria2').val(data.id_categoria);
+                            
                             //console.log(data.id_categoria)
                             //console.log('Tipo de datos de data.id_categoria:', typeof data.id_categoria);
                             //console.log('Valor de data.id_categoria:', data.id_categoria);
@@ -271,9 +276,53 @@
                   alert('Error al eliminar el registro: ID no definido.');
               }
           });
-  
+          // Función para llenar el select de subcategorías
+        function llenarSubcategorias(idCategoria, selectSubcategorias) {
+            $.ajax({
+                url: 'http://127.0.0.1:8000/control-productos/obtener_subcategorias/',
+                type: 'GET',
+                data: { 'id_categoria': idCategoria },
+                success: function (data) {
+                    console.log('Subcategorías cargadas:', data);
+
+                    if (data !== undefined) {
+                        // Limpia las opciones existentes en el select
+                        selectSubcategorias.empty();
+
+                        // Agrega las nuevas opciones basadas en la respuesta del servidor
+                        for (var i = 0; i < data.length; i++) {
+                            selectSubcategorias.append('<option value="' + data[i].id + '">' + data[i].nombre + '</option>');
+                        }
+                    } else {
+                        console.error('El array de subcategorías no está definido en la respuesta.');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error al cargar subcategorías:', error);
+                    alert('Error al cargar subcategorías.');
+                }
+            });
+        }
+
+        // Evento al abrir el modal de agregar
+        $('#modalAgregar').on('show.bs.modal', function () {
+            // Llenar subcategorías al abrir el modal de agregar
+            var idCategoria = $('#nombreCategoria1').val(); // Obtener el valor de la categoría seleccionada
+            var selectSubcategorias = $('#nombreSubcategoria1'); // Seleccionar el elemento select de subcategorías
+            llenarSubcategorias(idCategoria, selectSubcategorias);
+        });
+
+        // Resto del código...
+
+        // Evento al cambiar la categoría en el formulario de agregar
+        $('#nombreCategoria1').change(function () {
+            var idCategoria = $(this).val();
+            var selectSubcategorias = $('#nombreSubcategoria1');
+            llenarSubcategorias(idCategoria, selectSubcategorias);
+        });
         });
     </script>
+    
   </table>
   </div>
 </div>

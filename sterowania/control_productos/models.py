@@ -17,7 +17,7 @@ class Producto(models.Model):
     imagen = models.BinaryField()
     extract = models.CharField(max_length=50)
     id_categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, null=True)
-    #id_subcategoria = models.ForeignKey(Subcategoria, on_delete=models.CASCADE, null=True)
+    id_subcategoria = models.ForeignKey(Subcategoria, on_delete=models.CASCADE, null=True)
     def save(self, *args, **kwargs):
         super(Producto, self).save(*args, **kwargs)
    
