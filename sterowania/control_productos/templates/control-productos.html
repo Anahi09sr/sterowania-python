@@ -201,7 +201,7 @@
             $('a[data-bs-toggle="modal"]').on('click', function () {
                 var targetModalId = $(this).data('bs-target');
                 var id_producto = $(this).data('id');
-                console.log('ID del producto:', id_producto);
+               // console.log('ID del producto:', id_producto);
   
                 // Verificar si es el modal de eliminación
                 if (targetModalId === '#modalEliminar') {
@@ -214,7 +214,7 @@
                         type: 'GET',
                         data: { 'id_producto': id_producto },
                         success: function (data) {
-                            console.log('Datos cargados:', data);
+                            //console.log('Datos cargados:', data);
                             // campos del formulario con los datos del producto
                             $('#editarPdroductoForm').attr('action',  '{% url "editar_producto" id_producto=0 %}'.replace('0', id_producto)),
                             $('#clave2').val(data.clave);
@@ -225,16 +225,28 @@
                               // Actualiza la vista previa de la imagen
                             $('#imagen-preview').attr('src', 'data:image/png;base64,' + data.imagen_base64);
                             $('#nombreCategoria2').val(data.id_categoria);
-                            
-                            //console.log(data.id_categoria)
-                            //console.log('Tipo de datos de data.id_categoria:', typeof data.id_categoria);
-                            //console.log('Valor de data.id_categoria:', data.id_categoria);
+                            $('#nombreSubcategoria2').val(data.id_subcategoria);
+                            //console.log(data.id_subcategoria)
+                            //console.log('Tipo de datos de data.id_subcategoria:', typeof data.id_subcategoria);
+                            //console.log('Valor de data.id_subcategoria:', data.id_subcategoria);
+                            // Llenar subcategorías al abrir el modal de edición
+                            var idCategoria = $('#nombreCategoria2').val();
+                            var selectSubcategorias = $('#nombreSubcategoria2');
+                            llenarSubcategorias(idCategoria, selectSubcategorias);
 
 
 
 
                             // Muestra el modal
-                            $('#modalEditar').modal('show');
+                            //$('#modalEditar').modal('show');
+                            $('#modalEditar').on('show.bs.modal', function () {
+                                // Resto del código...
+                                
+                                // Llenar subcategorías al abrir el modal de edición
+                                var idCategoria = $('#nombreCategoria2').val();
+                                var selectSubcategorias = $('#nombreSubcategoria2');
+                                llenarSubcategorias(idCategoria, selectSubcategorias);
+                            });
                             },
                         error: function (xhr, status, error) {
                             console.error('Error al cargar la información del registro:', error);
@@ -283,7 +295,7 @@
                 type: 'GET',
                 data: { 'id_categoria': idCategoria },
                 success: function (data) {
-                    console.log('Subcategorías cargadas:', data);
+                   // console.log('Subcategorías cargadas:', data);
 
                     if (data !== undefined) {
                         // Limpia las opciones existentes en el select

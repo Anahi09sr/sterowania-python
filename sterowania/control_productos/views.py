@@ -108,7 +108,7 @@ def update_Producto(request, id_producto):
             if 'imagen' in request.FILES:
                 imagen = request.FILES['imagen']
                 producto_instance.imagen = imagen.read()
-
+            producto_instance.id_subcategoria = form.cleaned_data['id_subcategoria']
             producto_instance.save()
 
             # Incluye el ID de la categoría en la respuesta
@@ -130,7 +130,7 @@ def update_Producto(request, id_producto):
             'extract': producto.extract,
             'imagen_base64': imagen_base64,
             'id_categoria': producto.id_categoria_id,
-            #'id_subcategoria': producto.id_subcategoria_id,
+            'id_subcategoria': producto.id_subcategoria_id,
             #'id_categoria': producto.id_categoria.nombre_categoria,
             #'id_categoria': producto.id_categoria.nombre_categoria if producto.id_categoria else None,
 
