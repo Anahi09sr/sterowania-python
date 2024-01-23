@@ -1,11 +1,12 @@
 #from cotiza_gral.views import create_cotizacion,save_cotizacion,listar_cotizacion,update_cotizacion,delete_cotizacion
+import base64
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
 from .forms import CotizacionForm
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from .models import Cotizacion
-from .models import Categoria, Subcategoria
+from .models import Categoria, Subcategoria, Producto
 
 def create_cotizacionCategoria(request):
     if request.method == 'POST':
@@ -58,8 +59,10 @@ def semaforos(request):
 
     # Obtener las subcategorías asociadas a la categoría
     subcategorias = Subcategoria.objects.filter(id_categoria=categoria)
-
-    return render(request, 'cat-semaforos.html', {'categoria': categoria, 'subcategorias': subcategorias})
+    # Obtener todos los productos relacionados con las subcategorías
+    productos = Producto.objects.filter(id_subcategoria__in=subcategorias)
+    
+    return render(request, 'cat-semaforos.html', {'categoria': categoria, 'subcategorias': subcategorias, 'productos': productos})
 
 def postes(request):
      # Obtener la categoría con id_categoria=1

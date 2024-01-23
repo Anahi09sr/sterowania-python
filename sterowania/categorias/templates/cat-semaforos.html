@@ -1,6 +1,8 @@
 {% extends 'base.html' %}<!--Heredar lo que tiene el archivo base.html-->
 {% load static %}
 {% block content%} 
+{% load custom_filters %}
+
     <div class="slideSemaforos slide">
       <div class="slide__box">
         <p>CATÁLOGO DE  </p>
@@ -92,13 +94,20 @@
           </h2>
           <div class="accordion-collapse collapse " id="collapse{{ subcategoria.id_subcategoria }}" data-bs-parent="#accordionExample">
             <div class="accordion-body">
+              {% for producto in subcategoria.producto_set.all %}
               <div class="accordion-body__item">
                 <div class="accordion-body__item-title">
-                  <p>titulo</p>
+                  <p>{{ producto.nombre_producto }}</p>
                 </div>
-                <div class="accordion-body__item-img"><img src="images/Productos/Semaforos/Semaforo vehicular/6.jpg" alt="imagen del producto" srcset=""/></div>
+                <div class="accordion-body__item-img">
+                  {% if producto.imagen %}
+                <img src="data:image/png;base64,{{ producto.imagen|b64encode }}" alt="{{ producto.nombre_producto }}">
+                {% else %}
+                    <p>No hay imagen disponible.</p>
+                {% endif %}
+              </div>
                 <div class="accordion-body__item-txt">
-                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus, cum aut beatae</p>
+                  <p>{{ producto.descripcion }}</p>
                 </div>
                 <div class="accordion-body__item-link">
                   <button class="btn-cotizacion btn btn-secundary" type="button" data-bs-toggle="modal" data-bs-target="#modalCotizacion-unica">Cotizar</button>
@@ -174,6 +183,7 @@
                   </div>
                 </div>
               </div>
+              {% endfor %}
             </div>
           </div>
         </div>
