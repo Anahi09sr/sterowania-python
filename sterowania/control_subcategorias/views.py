@@ -5,6 +5,7 @@ from .forms import SubcategoriaForm
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from .models import Categoria
 
 # Create your views here.
 def create_Subcategoria(request):
@@ -54,3 +55,13 @@ def delete_Subcategoria(request, id_subcategoria):
             return JsonResponse({'error': str(e)}, status=500)
     else:
         return JsonResponse({'error': 'Método no permitido'}, status=403)
+
+"""def catalogo(request):
+    categorias = Categoria.objects.all()
+
+    context = {
+        'categorias': categorias,
+        # Otros datos de contexto...
+    }
+
+    return render(request, 'catalogo.html', context)"""

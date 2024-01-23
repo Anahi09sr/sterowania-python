@@ -8,5 +8,6 @@ urlpatterns =[
     path('listar', login_required (views.listar_Subcategorias), name='listar'),
     path('editar_subcategoria/<int:id_subcategoria>', login_required (views.update_Subcategoria), name='editar_subcategoria'),
     path('eliminar/<int:id_subcategoria>', views.delete_Subcategoria, name='eliminar_subcategoria'),
+    
 ]
 

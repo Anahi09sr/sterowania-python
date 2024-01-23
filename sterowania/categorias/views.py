@@ -5,6 +5,7 @@ from .forms import CotizacionForm
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from .models import Cotizacion
+from .models import Categoria, Subcategoria
 
 def create_cotizacionCategoria(request):
     if request.method == 'POST':
@@ -48,15 +49,46 @@ def delete_cotizacion(request, id_cotizacion):
 
 
 # Create your views here.
-def semaforos(request):
+"""def semaforos(request):
     return render(request, 'cat-semaforos.html')
+"""
+def semaforos(request):
+     # Obtener la categoría con id_categoria=1
+    categoria = Categoria.objects.get(id_categoria=1)
+
+    # Obtener las subcategorías asociadas a la categoría
+    subcategorias = Subcategoria.objects.filter(id_categoria=categoria)
+
+    return render(request, 'cat-semaforos.html', {'categoria': categoria, 'subcategorias': subcategorias})
+
 def postes(request):
-    return render(request, 'cat-postes.html')
+     # Obtener la categoría con id_categoria=1
+    categoria = Categoria.objects.get(id_categoria=2)
+
+    # Obtener las subcategorías asociadas a la categoría
+    subcategorias = Subcategoria.objects.filter(id_categoria=categoria)
+
+    return render(request, 'cat-postes.html', {'categoria': categoria, 'subcategorias': subcategorias})
 def senalamientos(request):
-    return render(request, 'cat-senalamientos.html')
+    # Obtener la categoría con id_categoria=1
+    categoria = Categoria.objects.get(id_categoria=3)
+
+    # Obtener las subcategorías asociadas a la categoría
+    subcategorias = Subcategoria.objects.filter(id_categoria=categoria)
+    return render(request, 'cat-senalamientos.html', {'categoria': categoria, 'subcategorias': subcategorias})
 def complementos(request):
-    return render(request, 'cat-complementos.html')
+    # Obtener la categoría con id_categoria=1
+    categoria = Categoria.objects.get(id_categoria=4)
+
+    # Obtener las subcategorías asociadas a la categoría
+    subcategorias = Subcategoria.objects.filter(id_categoria=categoria)
+    return render(request, 'cat-complementos.html', {'categoria': categoria, 'subcategorias': subcategorias})
 def servicios(request):
-    return render(request, 'cat-servicios.html')
+    # Obtener la categoría con id_categoria=1
+    categoria = Categoria.objects.get(id_categoria=5)
+
+    # Obtener las subcategorías asociadas a la categoría
+    subcategorias = Subcategoria.objects.filter(id_categoria=categoria)
+    return render(request, 'cat-servicios.html', {'categoria': categoria, 'subcategorias': subcategorias})
 def catalogo(request):
     return render(request, 'catalogo.html')
