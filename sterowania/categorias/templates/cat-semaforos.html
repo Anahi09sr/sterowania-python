@@ -86,111 +86,106 @@
     <div class="container">
       {% for subcategoria in subcategorias %}
       <div class="accordion" id="accordionExample">
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ subcategoria.id_subcategoria }}" aria-expanded="false" aria-controls="collapse{{ subcategoria.id_subcategoria }}"> 
-               {{ subcategoria.nombre_subcategoria }}
-            </button>
-          </h2>
-          <div class="accordion-collapse collapse " id="collapse{{ subcategoria.id_subcategoria }}" data-bs-parent="#accordionExample">
-            <div class="accordion-body">
-              {% for producto in subcategoria.producto_set.all %}
-              <div class="accordion-body__item">
-                <div class="accordion-body__item-title">
-                  <p>{{ producto.nombre_producto }}</p>
-                </div>
-                <div class="accordion-body__item-img">
-                  {% if producto.imagen %}
-                <img src="data:image/png;base64,{{ producto.imagen|b64encode }}" alt="{{ producto.nombre_producto }}">
-                {% else %}
-                    <p>No hay imagen disponible.</p>
-                {% endif %}
-              </div>
-                <div class="accordion-body__item-txt">
-                  <p>{{ producto.descripcion }}</p>
-                </div>
-                <div class="accordion-body__item-link">
-                  <button class="btn-cotizacion btn btn-secundary" type="button" data-bs-toggle="modal" data-bs-target="#modalCotizacion-unica">Cotizar</button>
-                  <div class="modal-cotizacion">
-                    <div class="modal fade" id="modalCotizacion-unica" aria-hidden="true" aria-labelledby="modalCotizacion-unicaLabel" tabindex="-1">
-                      <div class="modal-dialog modal-lg modal-dialog-centered">
-                        <div class="modal-content">
-                          <div class="modal-header modal-header-unico">
-                            <h5 class="modal-title" id="modalCotizacion-unicaLabel">SOLICITUD DE <br/><strong>COTIZACIÓN</strong></h5>
-                            <div class="modal-header-unico__detail">
-                              <div class="modal-header-unico__detail-img"><img src="images/Productos/Semaforos/Semaforo vehicular/7.jpg" alt="imagen del producto" srcset=""/></div>
-                              <div class="modal-header-unico__detail-txt">
-                                <p><strong>ID:</strong> B103</p>
-                                <p><strong>Descripción:</strong> Descripción del Producto</p>
-                                <p><strong>Categoría:</strong> Categoría del Producto</p>
-                                <p><strong>Subcategoría:</strong> Subcategoría del Producto</p>
+          <div class="accordion-item">
+              <h2 class="accordion-header">
+                  <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                      data-bs-target="#collapse{{ subcategoria.id_subcategoria }}" aria-expanded="false"
+                      aria-controls="collapse{{ subcategoria.id_subcategoria }}">
+                      {{ subcategoria.nombre_subcategoria }}
+                  </button>
+              </h2>
+              <div class="accordion-collapse collapse " id="collapse{{ subcategoria.id_subcategoria }}"
+                  data-bs-parent="#accordionExample">
+                  <div class="accordion-body">
+                      {% for producto in subcategoria.producto_set.all %}
+                      <div class="accordion-body__item">
+                          <div class="accordion-body__item-title">
+                              <p>{{ producto.nombre_producto }}</p>
+                          </div>
+                          <div class="accordion-body__item-img">
+                              {% if producto.imagen %}
+                              <img src="data:image/png;base64,{{ producto.imagen|b64encode }}"
+                                  alt="{{ producto.nombre_producto }}">
+                              {% else %}
+                              <p>No hay imagen disponible.</p>
+                              {% endif %}
+                          </div>
+                          <div class="accordion-body__item-txt">
+                              <p>{{ producto.descripcion }}</p>
+                          </div>
+                          <div class="accordion-body__item-link">
+                            <button class="btn-cotizacion btn btn-secundary" type="button" data-bs-toggle="modal" data-bs-target="#modalCotizacion1-{{ subcategoria.id_subcategoria }}-{{ producto.id_producto }}" onclick="openModal('{{ subcategoria.id_subcategoria }}', '{{ producto.id_producto }}')">Cotizar</button>
+
+                              <div class="modal-cotizacion">
+                                 {% for producto in subcategoria.producto_set.all %}
+                                 <div class="modal fade" id="modalCotizacion1-{{ subcategoria.id_subcategoria }}-{{ producto.id_producto }}" aria-hidden="true" aria-labelledby="modalCotizacion1-{{ subcategoria.id_subcategoria }}-{{ producto.id_producto }}Label" tabindex="-1">
+                                  <!-- Contenido del modal -->
+                                      <div class="modal-dialog modal-lg modal-dialog-centered">
+                                        <div class="modal-content">
+                                          <div class="modal-header modal-header-unico">
+                                            <h5 class="modal-title" id="modalCotizacion-unicaLabel">SOLICITUD DE <br/><strong>COTIZACIÓN</strong></h5>
+                                            <div class="modal-header-unico__detail">
+                                              <div class="modal-header-unico__detail-img"><img src="data:image/png;base64,{{ producto.imagen|b64encode }}" alt="{{ producto.nombre_producto }}"></div>
+                                              <div class="modal-header-unico__detail-txt">
+                                                <p><strong>Clave:</strong> {{ producto.clave }}</p>
+                                                <p><strong>Descripción:</strong> {{ producto.descripcion }}</p>
+                                                <p><strong>Categoría:</strong> {{ categoria.nombre_categoria }}</p>
+                                                <p><strong>Subcategoría:</strong> {{ subcategoria.nombre_subcategoria }}</p>
+                                              </div>
+                                            </div>
+                                            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                                          </div>
+                                          <div class="modal-body">
+                                            <div class="content-form">
+                                              <form action="">
+                                                <div class="form-floating mb-3">
+                                                  <input class="form-control form-control-lg" placeholder="Ingrese su nombre completo" type="number" name="nombre" aria-describedby="emailHelp" min="1" max="1000000" required="required" id="inputCantidad"/>
+                                                  <label for="inputCantidad">Cantidad</label>
+                                                </div>
+                                                <div class="form-floating mb-3">
+                                                  <input class="form-control form-control-lg" placeholder="Ingrese su nombre completo" type="text" name="nombre" aria-describedby="emailHelp" maxlength="40" required="required" id="nombreCliente"/>
+                                                  <label for="nombreCliente">Nombre Completo</label>
+                                                </div>
+                                                <div class="form-floating mb-3">
+                                                  <input class="form-control form-control-lg" type="tel" name="telefono" maxlength="10" aria-describedby="emailHelp" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required="required" placeholder="Ingrese su télefono" id="exampleInputEmail1"/>
+                                                  <label for="exampleInputEmail1">Teléfono a 10 dígitos</label>
+                                                </div>
+                                                <div class="form-floating mb-3">
+                                                  <input class="form-control form-control-lg" type="email" name="email" aria-describedby="emailHelp" placeholder="Email válido" id="exampleInputEmail1"/>
+                                                  <label for="exampleInputEmail1">Email </label>
+                                                </div>
+                                                <div class="form-floating mb-3">
+                                                  <input class="form-control form-control-lg" type="text" name="nombre_empresa" aria-describedby="emailHelp" placeholder="Nombre de la empresa" id="exampleInputEmail1"/>
+                                                  <label for="exampleInputEmail1">Nombre de la empresa</label>
+                                                </div>
+                                                <div class="form-floating mb-3">
+                                                  <textarea class="form-control form-control-lg" type="text" name="mensaje" aria-describedby="emailHelp" placeholder="Ingrese su mensaje" id="exampleInputEmail1"></textarea>
+                                                  <label for="exampleInputEmail1">Mensaje</label>
+                                                </div>
+                                              </form>
+                                            </div>
+                                            <div class="modal-body__buttons"> 
+                                              <button class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
+                                              <button class="btn btn-success" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Enviar</button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                  </div>
+                                  {% endfor %}
                               </div>
-                            </div>
-                            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                           </div>
-                          <div class="modal-body">
-                            <div class="content-form">
-                              <form action="">
-                                <div class="form-floating mb-3">
-                                  <input class="form-control form-control-lg" placeholder="Ingrese su nombre completo" type="number" name="nombre" aria-describedby="emailHelp" min="1" max="1000000" required="required" id="inputCantidad"/>
-                                  <label for="inputCantidad">Cantidad</label>
-                                </div>
-                                <div class="form-floating mb-3">
-                                  <input class="form-control form-control-lg" placeholder="Ingrese su nombre completo" type="text" name="nombre" aria-describedby="emailHelp" maxlength="40" required="required" id="nombreCliente"/>
-                                  <label for="nombreCliente">Nombre Completo</label>
-                                </div>
-                                <div class="form-floating mb-3">
-                                  <input class="form-control form-control-lg" type="tel" name="telefono" maxlength="10" aria-describedby="emailHelp" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required="required" placeholder="Ingrese su télefono" id="exampleInputEmail1"/>
-                                  <label for="exampleInputEmail1">Teléfono a 10 dígitos</label>
-                                </div>
-                                <div class="form-floating mb-3">
-                                  <input class="form-control form-control-lg" type="email" name="email" aria-describedby="emailHelp" placeholder="Email válido" id="exampleInputEmail1"/>
-                                  <label for="exampleInputEmail1">Email </label>
-                                </div>
-                                <div class="form-floating mb-3">
-                                  <input class="form-control form-control-lg" type="text" name="nombre_empresa" aria-describedby="emailHelp" placeholder="Nombre de la empresa" id="exampleInputEmail1"/>
-                                  <label for="exampleInputEmail1">Nombre de la empresa</label>
-                                </div>
-                                <div class="form-floating mb-3">
-                                  <textarea class="form-control form-control-lg" type="text" name="mensaje" aria-describedby="emailHelp" placeholder="Ingrese su mensaje" id="exampleInputEmail1"></textarea>
-                                  <label for="exampleInputEmail1">Mensaje</label>
-                                </div>
-                              </form>
-                            </div>
-                            <div class="modal-body__buttons"> 
-                              <button class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
-                              <button class="btn btn-success" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Enviar</button>
-                            </div>
-                          </div>
-                        </div>
                       </div>
-                    </div>
-                    <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
-                      <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalToggleLabel2">Solicitud </h5>
-                            <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-                          </div>
-                          <div class="modal-body">Cotización realizada con exito!</div>
-                          <div class="modal-footer">
-                            <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal">Cancelar </button>
-                            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Aceptar</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                      {% endfor %}
                   </div>
-                </div>
               </div>
-              {% endfor %}
-            </div>
           </div>
-        </div>
       </div>
       {% endfor %}
-    </div>
+  </div>
+  
     <script>
+     $(document).ready(function(){
       function mostrarAlerta(tipo, mensajes) {
           // Crear elemento de alerta de Bootstrap
           var alerta = document.createElement('div');
@@ -249,5 +244,32 @@
           
           }
       }
+       // Función para abrir un modal específico
+       function openModal(id_subcategoria, id_producto) {
+            var modalId = "#modalCotizacion1-" + id_subcategoria + "-" + id_producto;
+            $(modalId).modal('show');
+        }
+
+         // Asegúrate de que este script se encuentre después de cargar la biblioteca Bootstrap y el DOM.
+         $(document).ready(function() {
+            // Agrega un evento click a todos los botones con la clase btn-cotizacion
+            var botonesCotizacion = document.querySelectorAll('.btn-cotizacion');
+            botonesCotizacion.forEach(function(boton) {
+                boton.addEventListener('click', function() {
+                    // Obtiene el ID del producto desde el atributo data-bs-target
+                    var dataBsTarget = this.getAttribute('data-bs-target');                
+                    // Si dataBsTarget es undefined o null, es posible que haya un problema con la definición del atributo en el botón.
+                    if (dataBsTarget) {
+                        var idProducto = dataBsTarget.split('-')[3]; // Ajustado a [3]
+                        var idSubcategoria = dataBsTarget.split('-')[2]; // Ajustado a [2]
+                        // Abre el modal específico
+                        openModal(idSubcategoria, idProducto);
+                    } else {
+                        console.error("El atributo data-bs-target no está definido correctamente en el botón.");
+                    }
+                });
+            });
+        });
+     });
     </script>
     {% endblock %}
