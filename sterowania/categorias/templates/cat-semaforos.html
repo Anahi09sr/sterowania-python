@@ -174,23 +174,24 @@
                                                 <button  type="submit" type="button" class="btn btn-success" >Enviar</button>
                                               </div>
                                             </form>
-                                            <div class="modal fade" id="modalExito" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                              <div class="modal-dialog">
-                                                  <div class="modal-content">
-                                                      <div class="modal-header">
-                                                          <h5 class="modal-title" id="exampleModalLabel">Éxito</h5>
-                                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                      </div>
-                                                      <div class="modal-body">
-                                                          <p id="mensajeExitoTexto"></p>
-                                                      </div>
-                                                      <div class="modal-footer">
-                                                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                            {% for producto in subcategoria.producto_set.all %}
+                                              <div class="modal fade modalExito" id="modalExito-{{ subcategoria.id_subcategoria }}-{{ producto.id_producto }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                  <div class="modal-dialog">
+                                                      <div class="modal-content">
+                                                          <div class="modal-header">
+                                                              <h5 class="modal-title" id="exampleModalLabel">Solicitud</h5>
+                                                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                          </div>
+                                                          <div class="modal-body">
+                                                              <p class="mensajeExitoTexto"></p>
+                                                          </div>
+                                                          <div class="modal-footer">
+                                                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                                          </div>
                                                       </div>
                                                   </div>
                                               </div>
-                                          </div>
-                                          
+                                          {% endfor %}
                                           </div>
                                         </div>
                                       </div>
@@ -207,7 +208,7 @@
       {% endfor %}
   </div>
   <script>
-   $(document).ready(function () {
+    $(document).ready(function () {
     // Configurar el manejo del envío del formulario
     $('[id^="CotizacionForm"]').on('submit', function (e) {
         e.preventDefault(); // Evitar que el formulario se envíe de forma predeterminada
@@ -225,15 +226,24 @@
                 console.log('Respuesta del servidor:', response);
 
                 if (response.success) {
-                    // Mostrar mensaje de éxito en la ventana modal
-                    $('#mensajeExitoTexto').text(response.message);
+                    // Obtén el ID del producto y subcategoría actual
+                    var subcategoriaId = response.id_subcategoria;
+                    var productoId = response.id_producto;
 
-                    // Mostrar el modal de éxito
-                    $('#modalExito').modal('show');
+                    // Construye los nombres de clases únicos
+                    var modalExitoClass = '.modalExito';
+                    var mensajeExitoTextoClass = '.mensajeExitoTexto';
+
+                    // Modifica el contenido de la clase específica
+                    $(mensajeExitoTextoClass).text(response.message);
+
+                    // Muestra el modal de éxito específico
+                    $(modalExitoClass).modal('show');
                 } else {
                     // Mostrar mensaje de error en el DOM
                     $('#mensajeExito').hide();
                     $('#mensajeError').text(response.message).show();
+                    
                 }
             },
             error: function (error) {
@@ -248,7 +258,7 @@
     });
 });
 
-
-  </script>
-  
+ 
+   </script>
+   
   {% endblock %}

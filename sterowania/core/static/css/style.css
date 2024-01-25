@@ -1614,3 +1614,6 @@ table .bi.bi-trash3-fill {
   max-width: 200px;
   max-height: 200px;
 }
+.modal-backdrop {
+  background-color: transparent !important;
+}

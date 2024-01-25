@@ -14,7 +14,7 @@ def create_cotizacionCategoria(request):
         try:
             if form.is_valid():
                 form.save()
-                return JsonResponse({'success': True, 'message': 'Datos insertados correctamente'})
+                return JsonResponse({'success': True, 'message': 'Cotización realizada con éxito!'})
             else:
                 return JsonResponse({'success': False, 'message': 'Error al insertar datos. Revise los datos.', 'errors': form.errors}, status=400)
         except Exception as e:
