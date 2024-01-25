@@ -1,6 +1,6 @@
 #from cotiza_gral.views import create_cotizacion,save_cotizacion,listar_cotizacion,update_cotizacion,delete_cotizacion
 import base64
-from django.http import JsonResponse
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, render
 from .forms import CotizacionForm
 from django.contrib import messages
@@ -11,16 +11,18 @@ from .models import Categoria, Subcategoria, Producto
 def create_cotizacionCategoria(request):
     if request.method == 'POST':
         form = CotizacionForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Datos insertados correctamente.')
-        else:
-            messages.error(request, 'Error al insertar datos. Revise los datos.')
-            messages.error(request, form.errors)  # Agrega este mensaje de error para obtener más detalles
+        try:
+            if form.is_valid():
+                form.save()
+                return JsonResponse({'success': True, 'message': 'Datos insertados correctamente'})
+            else:
+                return JsonResponse({'success': False, 'message': 'Error al insertar datos. Revise los datos.', 'errors': form.errors}, status=400)
+        except Exception as e:
+            return JsonResponse({'success': False, 'message': f'Error al insertar datos: {str(e)}'}, status=500)
     else:
         form = CotizacionForm()
+        return render(request, 'catalogo.html', {'form': form})
 
-    return render(request, 'catalogo.html', {'form': form})
 def listar_cotizacion(request):
     cotizaciones = Cotizacion.objects.all()
     return render (request, "control-cotiza.html", {"cotizaciones":cotizaciones})
