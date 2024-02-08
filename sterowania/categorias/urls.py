@@ -11,5 +11,5 @@ urlpatterns =[
     path('complementos',views.complementos, name='complementos'),
     path('servicios',views.servicios, name='servicios'),
     path('create_cotizacionCategoria',views.create_cotizacionCategoria, name='create_cotizacionCategoria'),
-    #path('catalogo', views.catalogo ,name='catalogo'),
+    path('catalogo', views.catalogo ,name='catalogo'),
 ]

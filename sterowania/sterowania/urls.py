@@ -25,11 +25,9 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('core.urls')),
-    path('catalogo/',include('catalogo.urls')),
     path('categorias/',include('categorias.urls')),
     path('cotizacion/',include('cotiza_gral.urls')),
     path('login/',include('login.urls')),
-    path('control-cotizaciones/',include('control_cotizaciones.urls')),
     path('control-productos/',include('control_productos.urls')),
     path('control-subcategorias/',include('control_subcategorias.urls')),
     ##path('accounts/', include('django.contrib.auth.urls'))

@@ -2,74 +2,19 @@
 {% load static %}
 {% block content%} 
 {% load custom_filters %}
-
+  <!--Boton que enlaza a página de cotización general-->
     <div class="slideSemaforos slide">
       <div class="slide__box">
         <p>CATÁLOGO DE  </p>
         <p><strong>SEMAFOROS</strong></p>
         <div class="slide__box__link">
-          <button class="slide-btn-cotizar floating" type="button" data-bs-toggle="modal" data-bs-target="#modalCotizacion-gral">Solicitar una cotizacion</button>
-          <div class="modal-cotizacion">
-            <div class="modal fade" id="modalCotizacion-gral" aria-hidden="true" aria-labelledby="modalCotizacion-gralLabel" tabindex="-1">
-              <div class="modal-dialog modal-lg modal-dialog-centered">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="modalCotizacion-gralLabel">SOLICITUD DE <br/><strong>COTIZACIÓN</strong></h5>
-                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                    <div class="content-form">
-                      <form id="CotizacionForm" method="POST" action="{% url 'create_cotizacionCategoria' %}">
-                        {% csrf_token %} 
-                        <div class="form-floating mb-3">
-                          <input class="form-control form-control-lg" placeholder="Ingrese su nombre completo" type="text" name="nombre_cliente" aria-describedby="emailHelp" maxlength="50" required="required" id="nombreCliente"/>
-                          <label for="nombreCliente">Nombre Completo</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input class="form-control form-control-lg" type="tel" name="telefono" maxlength="10" aria-describedby="emailHelp" required="required" placeholder="Ingrese su télefono" id="telefono1"/>
-                            <label for="telefono1">Teléfono a 10 dígitos</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input class="form-control form-control-lg" type="email" name="email" aria-describedby="emailHelp" placeholder="Email válido" id="email1"/>
-                            <label for="email1">Email </label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input class="form-control form-control-lg" type="text" name="nombre_empresa" aria-describedby="emailHelp" maxlength="50" placeholder="Nombre de la empresa" id="nombreEmpresa"/>
-                            <label for="nombreEmpresa">Nombre de la empresa</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <textarea class="form-control form-control-lg" type="text" name="mensaje" aria-describedby="emailHelp" maxlength="200" placeholder="Ingrese su mensaje" id="mensaje1"></textarea>
-                            <label for="mensaje1">Mensaje</label>
-                        </div>
-                        <!--Muestra los errores de validacion, mediante alertas.-->
-                        <div id="alert-container"></div>
-                      </div>
-                    <div class="modal-body__buttons"> 
-                      <button class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
-                      <button  type="button" class="btn btn-success" onclick="validarYEnviar()" >Enviar</button>
-                    </div>
-                  </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
-              <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalToggleLabel2">Solicitud </h5>
-                    <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">Cotización realizada con exito!</div>
-                  <div class="modal-footer">
-                    <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal">Cancelar </button>
-                    <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Aceptar</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+          <a href="{% url 'create_cotizacion' %}">
+              <button class="slide-btn-cotizar floating" type="button">
+                  Solicitar una cotización
+              </button>
+          </a>
+      </div>
+      <!--Dropdown con enlace que muestra menú de las categorías-->
       </div>
     </div>
     <div class="link-categorias">
@@ -80,29 +25,37 @@
         </ul>
       </div>
     </div>
+    <!--Mensaje de introducción para que el usuario vizaulice  las subactegorias y productos  -->
     <div class="categoriaIntro">
-      <div class="titulo">Lorem ipsum dolor sit amet consectetur, adipisicing elit.  </div>
+      <div class="titulo">Conoce nuestro catálogo de productos. Si estás interesado en alguno, solicita tu cotización.</div>
     </div>
+    <!--Inicia el accordion-->
     <div class="container">
+      <!--inicia el bucle el cual permite literar todas las subcategorías exitentes  -->
       {% for subcategoria in subcategorias %}
       <div class="accordion" id="accordionExample">
           <div class="accordion-item">
               <h2 class="accordion-header">
+                <!--Muestra un componente del acordeón respecto a su ID-->
                   <button class="accordion-button" type="button" data-bs-toggle="collapse"
                       data-bs-target="#collapse{{ subcategoria.id_subcategoria }}" aria-expanded="false"
                       aria-controls="collapse{{ subcategoria.id_subcategoria }}">
                       {{ subcategoria.nombre_subcategoria }}
                   </button>
               </h2>
+              <!--Muetsra los productos existentes en la subacetgoría, al darle clic al botón-->
               <div class="accordion-collapse collapse " id="collapse{{ subcategoria.id_subcategoria }}"
                   data-bs-parent="#accordionExample">
                   <div class="accordion-body">
+                    <!--inicia el bucle el cual permite literar con todos los productos  de la subcategoría  -->
                       {% for producto in subcategoria.producto_set.all %}
                       <div class="accordion-body__item">
                           <div class="accordion-body__item-title">
+                            <!--Muestra el nombre del producto respecto a su ID-->
                               <p>{{ producto.nombre_producto }}</p>
                           </div>
                           <div class="accordion-body__item-img">
+                             <!--Muestra la imagen del producto respecto a su ID-->
                               {% if producto.imagen %}
                               <img src="data:image/png;base64,{{ producto.imagen|b64encode }}"
                                   alt="{{ producto.nombre_producto }}">
@@ -111,36 +64,47 @@
                               {% endif %}
                           </div>
                           <div class="accordion-body__item-txt">
-                              <p>{{ producto.descripcion }}</p>
+                             <!--Muestra la descripción del producto respecto a su ID-->
+                              <p>{{ producto.extract }}</p>
                           </div>
                           <div class="accordion-body__item-link">
-                            <button class="btn-cotizacion btn btn-secundary" type="button" data-bs-toggle="modal" data-bs-target="#modalCotizacion1-{{ subcategoria.id_subcategoria }}-{{ producto.id_producto }}" >Cotizar</button>
+                             <!--Botón que al darle clic abre el modal de cotización especifico del producto seleccionado-->
+                            <button class="btn-cotizacion btn btn-secundary" type="button" data-bs-toggle="modal" data-bs-target="#modalCotizacion1-{{ subcategoria.id_subcategoria }}-{{ producto.id_producto }}-{{ forloop.counter }}" >Cotizar</button>
 
                               <div class="modal-cotizacion">
+                                <!--bucle recorre todos los productos de la subcategoria actual  -->
                                  {% for producto in subcategoria.producto_set.all %}
-                                 <div class="modal fade" id="modalCotizacion1-{{ subcategoria.id_subcategoria }}-{{ producto.id_producto }}" aria-hidden="true" aria-labelledby="modalCotizacion1-{{ subcategoria.id_subcategoria }}-{{ producto.id_producto }}Label" tabindex="-1">
+                                 <!--Permite mostrar infromacion especifica de cada prodcuto respecto a su id-->
+                                 <div class="modal fade" id="modalCotizacion1-{{ subcategoria.id_subcategoria }}-{{ producto.id_producto }}-{{ forloop.counter }}"
+                                 aria-hidden="true" aria-labelledby="modalCotizacion1-{{ subcategoria.id_subcategoria }}-{{ producto.id_producto }}-{{ forloop.counter }}Label" tabindex="-1">
                                   <!-- Contenido del modal -->
                                       <div class="modal-dialog modal-lg modal-dialog-centered">
                                         <div class="modal-content">
                                           <div class="modal-header modal-header-unico">
                                             <h5 class="modal-title" id="modalCotizacion-unicaLabel">SOLICITUD DE <br/><strong>COTIZACIÓN</strong></h5>
                                             <div class="modal-header-unico__detail">
+                                              <!--Muestra la iamgen del producto y sus caracteristicas-->
                                               <div class="modal-header-unico__detail-img"><img src="data:image/png;base64,{{ producto.imagen|b64encode }}" alt="{{ producto.nombre_producto }}"></div>
                                               <div class="modal-header-unico__detail-txt">
                                                 <p><strong>Clave:</strong> {{ producto.clave }}</p>
+                                                <p><strong>Nombre:</strong> {{ producto.nombre_producto }}</p>
                                                 <p><strong>Descripción:</strong> {{ producto.descripcion }}</p>
                                                 <p><strong>Categoría:</strong> {{ categoria.nombre_categoria }}</p>
                                                 <p><strong>Subcategoría:</strong> {{ subcategoria.nombre_subcategoria }}</p>
+                                                <p><strong>Nota:</strong>Indicar nombre y cantidad del producto en el mensaje, para una mejor cotización.</p>
                                               </div>
                                             </div>
                                             <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                                           </div>
                                           <div class="modal-body">
                                             <div class="content-form">
-                                              <form id="CotizacionForm" method="POST" action="{% url 'create_cotizacionCategoria' %}">
-                                                {% csrf_token %} 
+                                              <!--Inicia el formulario del modal para cotización por producto, con el id que es unico 
+                                              este permite que se realice la solicitud de cotización-->
+                                              <form id="CotizacionForm-{{ subcategoria.id_subcategoria }}-{{ producto.id_producto }}" method="POST" action="{% url 'create_cotizacionCategoria' %}">
+                                                {% csrf_token %} <!--token de seguridad para prevendir ataques en el formulario-->
+                                                <!--Formulario de la cotización-->
                                                 <div class="form-floating mb-3">
-                                                  <input class="form-control form-control-lg" placeholder="Ingrese su nombre completo" type="text" name="nombre_cliente" aria-describedby="emailHelp" maxlength="50" required="required" id="nombreCliente3"/>
+                                                  <input class="form-control form-control-lg" placeholder="Ingrese su nombre completo" type="text" name="nombre_cliente" maxlength="70"  aria-describedby="emailHelp" maxlength="50" required="required" id="nombreCliente3"/>
                                                   <label for="nombreCliente3">Nombre Completo</label>
                                                 </div>
                                                 <div class="form-floating mb-3">
@@ -148,32 +112,27 @@
                                                     <label for="telefono3">Teléfono a 10 dígitos</label>
                                                 </div>
                                                 <div class="form-floating mb-3">
-                                                    <input class="form-control form-control-lg" type="email" name="email" aria-describedby="emailHelp" placeholder="Email válido" id="email3"/>
+                                                    <input class="form-control form-control-lg" type="email" name="email" maxlength="50"  aria-describedby="emailHelp" placeholder="Email válido" id="email3"/>
                                                     <label for="email3">Email </label>
                                                 </div>
                                                 <div class="form-floating mb-3">
-                                                    <input class="form-control form-control-lg" type="text" name="nombre_empresa" aria-describedby="emailHelp" maxlength="50" placeholder="Nombre de la empresa" id="nombreEmpresa3"/>
+                                                    <input class="form-control form-control-lg" type="text" name="nombre_empresa" maxlength="50"  aria-describedby="emailHelp" maxlength="50" placeholder="Nombre de la empresa" id="nombreEmpresa3"/>
                                                     <label for="nombreEmpresa3">Nombre de la empresa</label>
                                                 </div>
                                                 <div class="form-floating mb-3">
                                                     <textarea class="form-control form-control-lg" type="text" name="mensaje" aria-describedby="emailHelp" maxlength="200" placeholder="Ingrese su mensaje" id="mensaje3"></textarea>
                                                     <label for="mensaje3">Mensaje</label>
                                                 </div>
-                                                {% if messages %}
-                                                <div class="row">
-                                                    {% for message in messages %}
-                                                    <div class="alert alert-{{ message.tags }}" role="alert">
-                                                        <p>{{ message }}</p>
-                                                    </div>
-                                                    {% endfor %}
-                                                </div>
-                                              {% endif %}
+                                               <!--Mostar mensajes de error por validación-->
+                                                <div id="validation-error-container-modal-{{ subcategoria.id_subcategoria }}-{{ producto.id_producto }}"></div>
                                               </div>
                                               <div class="modal-body__buttons"> 
+                                                <!--Botón que valida que los datos son ingresados correctamente, si es así envía los datos -->
                                                 <button class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
-                                                <button  type="submit" type="button" class="btn btn-success" >Enviar</button>
+                                                <button   onclick="validarYEnviarProducto('{{ subcategoria.id_subcategoria }}', '{{ producto.id_producto }}')" type="submit" type="button" class="btn btn-success" >Enviar</button>
                                               </div>
                                             </form>
+                                            <!--Permite que muestre un mensaje de éxito  para el modal seleccionado, respecto a su id-->
                                             {% for producto in subcategoria.producto_set.all %}
                                               <div class="modal fade modalExito" id="modalExito-{{ subcategoria.id_subcategoria }}-{{ producto.id_producto }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                   <div class="modal-dialog">
@@ -207,26 +166,41 @@
       </div>
       {% endfor %}
   </div>
-  <script>
-    $(document).ready(function () {
-    // Configurar el manejo del envío del formulario
-    $('[id^="CotizacionForm"]').on('submit', function (e) {
-        e.preventDefault(); // Evitar que el formulario se envíe de forma predeterminada
+  <a class="whatsapp-float" href="https://wa.me/524492017176?text=Hola,%20quisiera%20más%20información%20sobre%20tus%20productos." target="_blank" rel="noopener noreferrer">
+    <i class="bi bi-whatsapp"></i>
+ </a>   
+<script>
+  // Esta función se manda llamar cuando se desea enviar datos en el formulario 
+  function validarYEnviarProducto(id_subcategoria, id_producto) {
+     // id del fromulario, se construye id  concatenando el fromulario y los id de subcategoria y producto
+      var formularioId = 'CotizacionForm-' + id_subcategoria + '-' + id_producto;
+      var formulario = document.getElementById(formularioId); //obtener del formulario
+      if (!formulario || !(formulario instanceof HTMLFormElement)) {
+        console.error('Error: Formulario no encontrado o no es de tipo HTMLFormElement');
+        return false;
+    }
+      // Se incluye un token CSRF como medida de seguridad ya que se estan envando datos mediante ajax
+      var formData = new FormData(formulario);
+      formData.append('csrfmiddlewaretoken', document.getElementsByName('csrfmiddlewaretoken')[0].value);
 
-        // Obtener los datos del formulario
-        var formData = $(this).serialize();
+      // AJAX 
+      $.ajax({
+          type: 'POST', //tipo de solicitud
+          url: '{% url "create_cotizacionCategoria" %}', //url a donde se envian los datos del form
+          data: formData, //datos del form
+          processData: false,
+          contentType: false,
+          //Función que se ejecuta si es exitosa  la solicitud
+          success: function (response) {
+            //muestra mensajes en consola
+             console.log('Respuesta del servidor:', response);
 
-        // Enviar el formulario mediante AJAX
-        $.ajax({
-            type: 'POST',
-            url: '{% url "create_cotizacionCategoria" %}',  // Ajusta la URL según tus rutas en Django
-            data: formData,
-            success: function (response) {
-                // Manejar la respuesta del servidor, si es necesario
-                console.log('Respuesta del servidor:', response);
-
-                if (response.success) {
-                    // Obtén el ID del producto y subcategoría actual
+              if (response.success) {
+                  // mensajes en consola.
+                  console.log('Formulario enviado con éxito');
+                  //muestra mensajes de éxito del modal
+                  mostrarAlertas(response.messages,  id_subcategoria, id_producto); // Show success alerts
+                  // Obtén el ID del producto y subcategoría actual
                     var subcategoriaId = response.id_subcategoria;
                     var productoId = response.id_producto;
 
@@ -239,26 +213,77 @@
 
                     // Muestra el modal de éxito específico
                     $(modalExitoClass).modal('show');
-                } else {
-                    // Mostrar mensaje de error en el DOM
-                    $('#mensajeExito').hide();
+                    $(modalExitoClass).on('hidden.bs.modal', function () {
+                        location.reload(true); // Recargar la página
+                    });
+              } else {
+                  // Muestra los errores 
+                  mostrarErrores(response.errors,  id_subcategoria, id_producto); // Show error alerts
+                   // Mostrar mensaje de error en el DOM
+                   $('#mensajeExito').hide();
                     $('#mensajeError').text(response.message).show();
-                    
-                }
-            },
-            error: function (error) {
-                // Manejar los errores, si es necesario
-                console.error('Error al enviar la cotización', error);
+              }
+          },
+          error: function (error) {
+              console.error('Error en la solicitud AJAX:', error);
+              console.error('Error al enviar la cotización', error);
 
                 // Mostrar mensaje de error en el DOM
                 $('#mensajeExito').hide();
                 $('#mensajeError').text('Error al enviar la cotización').show();
-            }
-        });
-    });
-});
 
- 
-   </script>
-   
-  {% endblock %}
+            }
+      });
+
+      // Estas funcionan permiten que no  se recargue la pagina con los datos del fromulario
+      event.preventDefault();
+      event.stopPropagation();
+      return false;
+  }
+
+  // Crea dinamicamente las alertas de cada campo del modal, respecto al id. Mensajes de exito
+  function mostrarAlertas(messages,  id_subcategoria, id_producto) {
+      var alertContainer = document.getElementById('validation-error-container-modal-' + id_subcategoria + '-' + id_producto);
+      
+      // Clear existing alerts
+      alertContainer.innerHTML = '';
+
+      if (messages && messages.length > 0) {
+          messages.forEach(function (message) {
+              var alertDiv = document.createElement('div');
+              alertDiv.className = 'alert alert-success alert-dismissible fade show';
+              alertDiv.setAttribute('role', 'alert');
+              alertDiv.innerHTML = '<p>' + message + '</p>' +
+                  '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+              alertContainer.appendChild(alertDiv);
+          });
+      }
+  }
+
+  // presenta los errores al usuario sin 
+  function mostrarErrores(errors, id_subcategoria, id_producto) {
+      var alertContainer = document.getElementById('validation-error-container-modal-' + id_subcategoria + '-' + id_producto);
+      
+      
+      alertContainer.innerHTML = '';
+
+      if (errors && Object.keys(errors).length > 0) {
+          Object.keys(errors).forEach(function (field) {
+              errors[field].forEach(function (errorMessage) {
+                  var alertDiv = document.createElement('div');
+                  alertDiv.className = 'alert alert-danger alert-dismissible fade show';
+                  alertDiv.setAttribute('role', 'alert');
+                  alertDiv.innerHTML = '<p>' + errorMessage + '</p>' +
+                      '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>';
+                  alertContainer.appendChild(alertDiv);
+              });
+          });
+      }
+  }
+
+</script>
+
+
+
+
+  {% endblock %} 

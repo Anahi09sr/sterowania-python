@@ -8,21 +8,33 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import Cotizacion
 from .models import Categoria, Subcategoria, Producto
 
+
+"""def create_cotizacionCategoria(request):
+    if request.method == 'POST':
+        form = CotizacionForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Cotización realizada con éxito!')
+            return JsonResponse({'success': True, 'message': 'Cotización realizada con éxito!'})
+        else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f'{field}: {error}')
+            return JsonResponse({'success': False, 'message': 'Error al insertar datos. Revise los datos.'}, status=400)
+    else:
+        form = CotizacionForm()
+        return render(request, 'catalogo.html', {'form': form})"""
 def create_cotizacionCategoria(request):
     if request.method == 'POST':
         form = CotizacionForm(request.POST)
-        try:
-            if form.is_valid():
-                form.save()
-                return JsonResponse({'success': True, 'message': 'Cotización realizada con éxito!'})
-            else:
-                return JsonResponse({'success': False, 'message': 'Error al insertar datos. Revise los datos.', 'errors': form.errors}, status=400)
-        except Exception as e:
-            return JsonResponse({'success': False, 'message': f'Error al insertar datos: {str(e)}'}, status=500)
-    else:
-        form = CotizacionForm()
-        return render(request, 'catalogo.html', {'form': form})
-
+        if form.is_valid():
+            form.save()
+            # Procesar formulario y devolver éxito
+            return JsonResponse({'success': True, 'message': 'Cotización realizada con éxito!'})
+        else:
+            # Return the validation errors
+            errors = form.errors
+            return JsonResponse({'success': False, 'errors': errors})
 def listar_cotizacion(request):
     cotizaciones = Cotizacion.objects.all()
     return render (request, "control-cotiza.html", {"cotizaciones":cotizaciones})

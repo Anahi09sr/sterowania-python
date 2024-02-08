@@ -15,7 +15,7 @@
           </div>
           <div class="modal-body">
             <div class="content-form">
-              <form  method="POST" action="{% url 'create_producto' %}" enctype="multipart/form-data">
+              <form id="ProductoForm" method="POST" action="{% url 'create_producto' %}" enctype="multipart/form-data">
                 {% csrf_token %} 
                 <div class="form-floating mb-3">
                   <input class="form-control form-control-lg" placeholder="Ingrese la clave del producto" type="number" name="clave" maxlength="4" aria-describedby="emailHelp" id="clave1"/>
@@ -46,26 +46,25 @@
                   <input class="form-control form-control-lg" type="file" name="imagen" aria-describedby="emailHelp" placeholder="Ingrese la imagen del producto" id="imagen1"/>
                 </div>
                 <div class="form-floating mb-3">
-                  <textarea class="form-control form-control-lg" type="text" name="extract" aria-describedby="emailHelp" placeholder="Ingrese el extract del producto" id="extract1"></textarea>
+                  <textarea class="form-control form-control-lg" type="text" name="extract" aria-describedby="emailHelp" placeholder="Ingrese el extract del producto" maxlength="50" id="extract1"></textarea>
                   <label class="form-label" for="extract1">Extracto</label>
                 </div>
                 <div class="form-floating mb-3">
-                  <textarea class="form-control form-control-lg" type="text" name="descripcion" aria-describedby="emailHelp" placeholder="Ingrese la descripción del producto" id="descripcion1"></textarea>
+                  <textarea class="form-control form-control-lg" type="text" name="descripcion" aria-describedby="emailHelp" placeholder="Ingrese la descripción del producto" maxlength="200" id="descripcion1"></textarea>
                   <label class="form-label" for="descripcion1">Descripción</label>
                 </div>
-                {% if messages %}
-                <div class="row">
-                    {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }}" role="alert">
-                        <p>{{ message }}</p>
-                    </div>
-                    {% endfor %}
-                </div>
-              {% endif %}
+                 <!-- Alert container for validation messages -->
+                 <div id="alert-container"></div>
+                 <!-- Alert for general form error -->
+                 {% if form.errors %}
+                 <div class="alert alert-danger" role="alert">
+                   <strong>Error:</strong> Por favor, revise los siguientes campos.
+                 </div>
+                 {% endif %}
             </div>
             <div class="modal-body__buttons"> 
               <button class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
-              <button class="btn btn-success" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Enviar</button>
+              <button class="btn btn-success" type="button" onclick="validarYEnviar()">Guardar</button>
             </div>
           </form>
           </div>
@@ -79,10 +78,11 @@
             <h5 class="modal-title" id="exampleModalToggleLabel2">Solicitud </h5>
             <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="modal-body">Cotización realizada con exito!</div>
+          <div class="modal-body">Producto agregado con exito!</div>
           <div class="modal-footer">
-            <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal">Cancelar </button>
-            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Aceptar</button>
+            <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal"
+              data-bs-dismiss="modal">Cerrar</button>
+            
           </div>
         </div>
       </div>
@@ -108,8 +108,8 @@
           <td>{{ producto.nombre_producto}}</td>
           <td>{{producto.id_categoria.nombre_categoria }}</td>
           <td>{{producto.id_subcategoria.nombre_subcategoria}}</td>
-          <td> <a href="{% url 'editar_producto' producto.id_producto %}" data-id="{{producto.id_producto }}"  data-bs-toggle="modal" data-bs-target="#modalEditar" title="Modificar"> <i class="bi bi-pencil-square"></i></a></td>
-          <td> <a href="{% url 'eliminar_producto' producto.id_producto %}" data-id="{{producto.id_producto }}" data-bs-toggle="modal" data-bs-target="#modalEliminar" title="Eliminar"> <i class="bi bi-trash3-fill"></i></a></td>
+          <td> <a href="{% url 'editar_producto' producto.id_producto %}" data-id="{{producto.id_producto }}"  data-bs-toggle="modal" data-bs-target="#modalEditar" title="Modificar"> <i class="bi bi-pencil-fill"></i></a></td>
+          <td> <a href="{% url 'eliminar_producto' producto.id_producto %}" data-id="{{producto.id_producto }}" data-bs-toggle="modal" data-bs-target="#modalEliminar" title="Eliminar"><i class="bi bi-trash-fill"></i></a></td>
         </tr>
         {% endfor %}
             <div class="modal-producto">
@@ -125,11 +125,11 @@
                         <form  method="POST" id="editarPdroductoForm" action="#" enctype="multipart/form-data">
                           {% csrf_token %} 
                           <div class="form-floating mb-3">
-                            <input class="form-control form-control-lg" placeholder="Ingrese la clave del producto" type="number" name="clave" maxlength="4" aria-describedby="emailHelp" id="clave2"/>
+                            <input class="form-control form-control-lg" placeholder="Ingrese la clave del producto" type="number" name="clave" maxlength="4"  aria-describedby="emailHelp" id="clave2"/>
                             <label class="form-label" for="clave2">Clave</label>
                           </div>
                           <div class="form-floating mb-3">
-                            <input class="form-control form-control-lg" type="text" name="nombre_producto" maxlength="100" aria-describedby="emailHelp" placeholder="Ingrese nommbre del producto" id="nombreProducto2"/>
+                            <input class="form-control form-control-lg" type="text" name="nombre_producto" maxlength="50" aria-describedby="emailHelp" placeholder="Ingrese nommbre del producto" id="nombreProducto2"/>
                             <label class="form-label" for="nombreProducto2">Nombre del producto</label>
                           </div>
                           <div class="form-group mb-3">
@@ -165,7 +165,8 @@
                             <textarea class="form-control form-control-lg" type="text" name="descripcion" aria-describedby="emailHelp" placeholder="Ingrese la descripción del producto" id="descripcion2"></textarea>
                             <label class="form-label" for="descripcion2">Descripción</label>
                           </div>
-                      </div>
+                      
+                         </div>
                       <div class="modal-body__buttons"> 
                         <button class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">Cancelar</button>
                         <button type="submit" class="btn btn-success">Guardar cambios</button>
@@ -233,10 +234,6 @@
                             var idCategoria = $('#nombreCategoria2').val();
                             var selectSubcategorias = $('#nombreSubcategoria2');
                             llenarSubcategorias(idCategoria, selectSubcategorias);
-
-
-
-
                             // Muestra el modal
                             //$('#modalEditar').modal('show');
                             $('#modalEditar').on('show.bs.modal', function () {
@@ -324,15 +321,84 @@
             llenarSubcategorias(idCategoria, selectSubcategorias);
         });
 
-        // Resto del código...
-
-        // Evento al cambiar la categoría en el formulario de agregar
+        // cambiar la categoría en el formulario de agregar
         $('#nombreCategoria1').change(function () {
             var idCategoria = $(this).val();
             var selectSubcategorias = $('#nombreSubcategoria1');
             llenarSubcategorias(idCategoria, selectSubcategorias);
         });
         });
+         //Muestra el alerta debajo del formulario  ya sea de errores o de exito
+         function mostrarAlerta(tipo, mensajes, containerId) {
+          var alerta = document.createElement('div');
+          alerta.className = 'alert alert-' + tipo + ' alert-dismissible fade show';
+
+          mensajes.forEach(function (mensaje) {
+            alerta.innerHTML += mensaje + '<br>';
+          });
+
+          document.getElementById(containerId).appendChild(alerta);
+        }
+
+        function validarYEnviar() {
+          $('#alert-container').empty();
+          // Array para almacenar mensajes de error durante la validación
+          var errores = [];
+          // Obtiene el valor del campo del fromulario
+          var clave = document.getElementById('clave1').value;
+          var nombreProducto = document.getElementById('nombreProducto1').value;
+          var extract= document.getElementById('extract1').value;
+          var descripcion= document.getElementById('descripcion1').value;
+          //Validación para los campos
+          if (!/^\d{1,4}$/.test(clave)) {
+            errores.push('La clave del producto solo puede contener como máximo 4 dígitos.');
+          }
+          if (!/^[a-zA-Z\sñáéíóúüÁÉÍÓÚÜ]+$/.test(nombreProducto)) {
+            errores.push('El nombre del producto puede contener solo letras, espacios, ñ y acentos.');
+          }
+          if (!/^[\w\sñáéíóúüÁÉÍÓÚÜ.,]+(?:\.\d+)?$/.test(extract)) {
+            errores.push('El extracto puede contener letras, espacios, ñ, acentos, números.');
+          }
+          if (!/^[\w\sñáéíóúüÁÉÍÓÚÜ.,]+(?:\.\d+)?$/.test(descripcion)) {
+            errores.push('La descripción puede contener letras, espacios, ñ, acentos, números.');
+          }
+          //Verifica si hay errores en las validaciones 
+          if (errores.length > 0) {
+            //Muestra los errores tipo alerta debajo del formulario
+            mostrarAlerta('danger', errores, 'alert-container');
+          } else {
+            //si no hay errrores envia los datos al formulario y muestra mensaje de éxito  document.getElementById('SubcategoriaForm').submit();
+            // mostrarAlerta('success', ['Formulario enviado con éxito'], 'alert-container');
+              // Crear un objeto FormData que contiene los datos del formulario
+            var formData = new FormData($('#ProductoForm')[0]);
+            $.ajax({
+              url: '{%url "create_producto"%}',
+              type: 'POST',
+              data: formData,
+              processData: false,
+              contentType: false,
+              success: function (response) {
+                // Handle the success response
+                mostrarAlerta('success', ['Producto agregado con éxito'], 'alert-container');
+                // Cerrar el primer modal después de enviar el formulario
+                $('#modalProductos').modal('hide')
+                // Mostrar el segundo modal después de enviar el formulario
+                  $('#exampleModalToggle2').modal('show');
+                // Esperar a que el segundo modal se cierre
+                $('#exampleModalToggle2').on('hidden.bs.modal', function () {
+                  // Recargar la página
+                  location.reload();
+                });
+
+              },
+              error: function (xhr, status, error) {
+                // Handle the error response
+                console.error('Error al enviar el formulario:', error);
+                alert('Error al enviar el formulario.');
+              }
+            });
+          }
+        }
     </script>
     
   </table>

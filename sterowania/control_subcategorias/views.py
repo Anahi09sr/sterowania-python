@@ -17,7 +17,7 @@ def create_Subcategoria(request):
             return redirect('listar')
         else:
             messages.error(request, 'Error al insertar datos. Revise los datos.')
-            messages.error(request, form.errors)  # Agrega este mensaje de error para obtener más detalles
+            messages.error(request, form.errors)  #  mensaje de error para obtener más detalles
     else:
         form =SubcategoriaForm()
 
@@ -56,12 +56,3 @@ def delete_Subcategoria(request, id_subcategoria):
     else:
         return JsonResponse({'error': 'Método no permitido'}, status=403)
 
-"""def catalogo(request):
-    categorias = Categoria.objects.all()
-
-    context = {
-        'categorias': categorias,
-        # Otros datos de contexto...
-    }
-
-    return render(request, 'catalogo.html', context)"""

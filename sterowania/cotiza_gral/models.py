@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from control_productos.models import Producto
 
 # Create your models here.
 class Cotizacion(models.Model):
@@ -10,7 +11,8 @@ class Cotizacion(models.Model):
     email = models.CharField(max_length=50, blank=True, null=True, verbose_name="email")
     nombre_empresa = models.CharField(max_length=50, blank=True, null=True, verbose_name="nombre_empresa")
     mensaje = models.CharField(max_length=360, blank=True, null=True, verbose_name="mensaje")
-    estatus = models.CharField(max_length=20, blank=True, null=True, verbose_name="status")
+    estatus = models.CharField(max_length=20, default='pendiente', choices=[('pendiente', 'Pendiente'), ('atendida', 'Atendida')])
+   
 
     class Meta:
         managed = True

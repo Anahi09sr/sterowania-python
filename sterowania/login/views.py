@@ -2,6 +2,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 
+#Este código me permitió craar al usario y su contraseña
+
 def login_user(request):
     if request.method == 'POST':
         username = request.POST['username']

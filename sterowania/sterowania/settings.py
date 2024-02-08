@@ -46,11 +46,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core',
-    'catalogo',
     'categorias',
     'cotiza_gral',
     'login',
-    'control_cotizaciones',
     'control_productos',
     'control_subcategorias',
     'sterowania',
@@ -166,5 +164,15 @@ MESSAGE_TAGS = {message_constants.DEBUG: 'debug',
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
-LOGIN_URL = 'login'  # Ajusta esto según la URL de tu página de inicio de sesión
+LOGIN_URL = 'login'  # Url de la pagina de inicio de sesión
 
+
+#Datos para que funcione lo del correo
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # Por ejemplo, smtp.gmail.com para Gmail  #smtp.gmail.com
+EMAIL_PORT = 587  # Puerto de conexión SMTP, generalmente 587 para TLS
+EMAIL_USE_TLS = True  # Usar TLS para la conexión segura
+EMAIL_HOST_USER = 'sterowaniaproyecto@gmail.com'  # Tu dirección de correo
+EMAIL_HOST_PASSWORD = 'proyectoSw09' #'grpzesocwblldhrf_'  # Tu contraseña o token de aplicación si estás utilizando Gmail
+
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

@@ -1298,7 +1298,7 @@ footer .footer__foot .link__jmc a {
 table {
   overflow: auto;
 }
-table .bi.bi-pencil-square {
+table .bi.bi-pencil-fill {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
@@ -1308,7 +1308,7 @@ table .bi.bi-pencil-square {
   font-size: 15px;
   color: #F79F1F;
 }
-table .bi.bi-trash3-fill {
+table .bi.bi-trash-fill {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
@@ -1317,6 +1317,13 @@ table .bi.bi-trash3-fill {
           align-items: center;
   font-size: 15px;
   color: #EA2027;
+}
+th{
+  background-color: #000000;
+  color: #D6D6D6;
+}
+.dataTables_filter{
+   margin: 10px;
 }
 /* CONTROL DE PRODUCTOS MODALES */
 .modal-title {
@@ -1616,4 +1623,17 @@ table .bi.bi-trash3-fill {
 }
 .modal-backdrop {
   background-color: transparent !important;
+}
+.whatsapp-float {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #25d366;
+  color: #fff;
+  padding: 10px;
+  border-radius: 50%;
+  font-size: 20px;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
 }

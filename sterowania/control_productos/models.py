@@ -6,14 +6,12 @@ from django.db import models
 from PIL import Image as PILImage
 from django.forms import ValidationError
 from control_subcategorias.models import Categoria, Subcategoria
-# Create your models here.
+#Modelo de productos
 class Producto(models.Model):
     id_producto = models.AutoField(primary_key=True)  # The composite primary key (id_producto, clave) found, that is not supported. The first column is selected.
     clave = models.CharField(max_length=45)
     nombre_producto = models.CharField(max_length=100)
     descripcion = models.CharField(max_length=200)
-    #nombre_img = models.CharField(max_length=250)
-    #imagen = models.CharField(max_length=255, blank=True, null=True)
     imagen = models.BinaryField()
     extract = models.CharField(max_length=50)
     id_categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, null=True)
@@ -25,4 +23,4 @@ class Producto(models.Model):
     class Meta:
         managed = True
         db_table = 'producto'
-       # unique_together = (('id_producto', 'clave'),)
+       
