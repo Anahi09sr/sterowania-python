@@ -53,9 +53,9 @@
                   <textarea class="form-control form-control-lg" type="text" name="descripcion" aria-describedby="emailHelp" placeholder="Ingrese la descripción del producto" maxlength="200" id="descripcion1"></textarea>
                   <label class="form-label" for="descripcion1">Descripción</label>
                 </div>
-                 <!-- Alert container for validation messages -->
+                 <!-- Alerta para mostar mensajes de validacion-->
                  <div id="alert-container"></div>
-                 <!-- Alert for general form error -->
+                 <!-- Alerta para mostrar mensajes generales-->
                  {% if form.errors %}
                  <div class="alert alert-danger" role="alert">
                    <strong>Error:</strong> Por favor, revise los siguientes campos.
@@ -378,7 +378,7 @@
               processData: false,
               contentType: false,
               success: function (response) {
-                // Handle the success response
+                // Respuesta de exito
                 mostrarAlerta('success', ['Producto agregado con éxito'], 'alert-container');
                 // Cerrar el primer modal después de enviar el formulario
                 $('#modalProductos').modal('hide')
@@ -392,7 +392,7 @@
 
               },
               error: function (xhr, status, error) {
-                // Handle the error response
+                // Respuesta de error
                 console.error('Error al enviar el formulario:', error);
                 alert('Error al enviar el formulario.');
               }

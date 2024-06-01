@@ -11,8 +11,8 @@ from control_subcategorias .models import Subcategoria
 
 
 def create_Producto(request):
-    if request.method == 'POST':
-        form = ProductoForm(request.POST, request.FILES)
+    if request.method == 'POST': 
+        form = ProductoForm(request.POST, request.FILES) #Crea un productos con los datos 
         if form.is_valid():
             producto_instance = form.save(commit=False)
             
@@ -21,12 +21,12 @@ def create_Producto(request):
            # producto_instance.id_subcategoria = form.cleaned_data['id_subcategoria']
 
             if 'imagen' in request.FILES:
-                imagen = request.FILES['imagen']
+                imagen = request.FILES['imagen'] #obtiene la imagen
                 
                 # Aquí conviertes los datos binarios de la imagen y los asignas al campo imagen del modelo
                 producto_instance.imagen = imagen.read()
                 
-            producto_instance.save()
+            producto_instance.save()  #Guarda el produco en la BD
             
 
             messages.success(request, 'Datos insertados correctamente.')
@@ -40,11 +40,12 @@ def create_Producto(request):
     return render(request, 'control-productos.html', {'form': form})
      
 def listar_Producto(request):
+    #Obtiene todos los prodcutos de la BD
     productos = Producto.objects.all()
     return render(request, 'control-productos.html', {'productos': productos})
 def update_Producto(request, id_producto):
-    producto = get_object_or_404(Producto, id_producto=id_producto)
-    imagen_base64 = None
+    producto = get_object_or_404(Producto, id_producto=id_producto) #otiene el pridcuto con el id especificado
+    imagen_base64 = None #Inicializa la variable para poder almacenar la iamgen codificada 
 
     if producto.imagen and isinstance(producto.imagen, bytes):
         imagen_base64 = base64.b64encode(producto.imagen).decode('utf-8')
@@ -80,12 +81,10 @@ def update_Producto(request, id_producto):
             'imagen_base64': imagen_base64,
             'id_categoria': producto.id_categoria_id,
             'id_subcategoria': producto.id_subcategoria_id,
-            #'id_categoria': producto.id_categoria.nombre_categoria,
-            #'id_categoria': producto.id_categoria.nombre_categoria if producto.id_categoria else None,
 
         }
 
-        return JsonResponse(data)
+        return JsonResponse(data) #Devuelve una respuesta JSON con los datos del producto
 
 @csrf_exempt    
 def delete_Producto(request, id_producto):
@@ -98,15 +97,15 @@ def delete_Producto(request, id_producto):
     return JsonResponse({'message': 'Registro eliminado correctamente'})
 
 def obtener_subcategorias(request):
-    try:
-        id_categoria = request.GET.get('id_categoria')
+    try: 
+        id_categoria = request.GET.get('id_categoria') #Obtiene el Id de la categoria
         
         if id_categoria is not None:
-            subcategorias = Subcategoria.objects.filter(id_categoria_id=id_categoria)
-            data = [{'id': sub.id_subcategoria, 'nombre': sub.nombre_subcategoria} for sub in subcategorias]
+            subcategorias = Subcategoria.objects.filter(id_categoria_id=id_categoria) #Filtrar todas las subcategorias dpendiendo el id de la categoria
+            data = [{'id': sub.id_subcategoria, 'nombre': sub.nombre_subcategoria} for sub in subcategorias] #Crea la lista de diccionarios c con los datos de la subcategoria 
             # Cambiado el nombre del campo de 'id_subcategoria_id' a 'id_subcategoria'
-        else:
-            data = []
+        else: #si no hay id de categoria
+            data = [] #Define una lsta vacia
 
         return JsonResponse(data, safe=False)
     except Exception as e:

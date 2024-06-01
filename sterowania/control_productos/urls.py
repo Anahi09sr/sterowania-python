@@ -10,8 +10,6 @@ urlpatterns =[
     path('listar_producto', login_required (views.listar_Producto), name='listar_producto'),
     path('editar_producto/<int:id_producto>', login_required (views.update_Producto), name='editar_producto'),
     path('eliminar_producto/<int:id_producto>', views.delete_Producto, name='eliminar_producto'),
-    #path('editar_subcategoria/<int:id_subcategoria>', login_required (views.update_Subcategoria), name='editar_subcategoria'),
-    #path('get-subcategorias/',views.get_subcategorias_by_categoria, name='get_subcategorias_by_categoria'),
     path('obtener_subcategorias/', views.obtener_subcategorias, name='obtener_subcategorias'),
 
 ]

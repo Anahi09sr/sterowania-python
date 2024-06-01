@@ -3,13 +3,16 @@
 {% block content%}
 <div class="content__CtrlSubcategorias">
   <h3 class="title">Control de Subcategorias</h3>
+   <!-- Botón para agregar una nueva subcategoría -->
   <button class="btn btn-success newBtnElement" type="button" data-bs-toggle="modal"
     data-bs-target="#modalCotizacion-gral">Nueva Subcategoria</button>
-  <div id="mensajeExito" class="alert alert-success" style="display: none;">
+  <!-- Contentenedor del mensaje de exito -->
+    <div id="mensajeExito" class="alert alert-success" style="display: none;">
     Datos enviados con éxito!
   </div>
-
+  <!-- Modal para agregar una subcategoria -->
   <div class="modal-cotizacion">
+     <!-- Aquí se define el formulario para agregar una nueva subcategoría -->
     <div class="modal fade" id="modalCotizacion-gral" aria-hidden="true" aria-labelledby="modalCotizacion-gralLabel"
       tabindex="-1">
       <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -20,15 +23,17 @@
           </div>
           <div class="modal-body">
             <div class="content-form">
+               <!-- Formulario para agregar una nueva subcategoría -->
               <form method="POST" action="{%url 'create'%}" id="SubcategoriaForm">
                 {% csrf_token %}
-
+                 <!-- Campo para el nombre de la subcategoria -->
                 <div class="form-floating mb-3">
                   <input class="form-control form-control-lg" type="text" name="nombre_subcategoria" maxlength="100"
                     aria-describedby="emailHelp" placeholder="Ingrese nombre de subcategoria"
                     id="nombreSubcategoria1" />
                   <label class="form-label" for="nombreSubcategoria1">Nombre de la subcategoría</label>
                 </div>
+                 <!-- Select para la categoria -->
                 <div class="form-group mb-3">
                   <label class="form-label" for="nombreCategoria1">Categoría</label>
                   <select class="form-control form-control-lg form-select" name="id_categoria"
@@ -40,9 +45,9 @@
                     <option value="5">Servicios de diseño</option>
                   </select>
                 </div>
-                <!-- Alert container for validation messages -->
+                <!-- Mostrar mensajes de error de validacion-->
                 <div id="alert-container"></div>
-                <!-- Alert for general form error -->
+                <!-- Alerta para errores generales del formualrio -->
                 {% if form.errors %}
                 <div class="alert alert-danger" role="alert">
                   <strong>Error:</strong> Por favor, revise los siguientes campos.
@@ -58,6 +63,7 @@
         </div>
       </div>
     </div>
+     <!-- Modal de exito al agregar una subcategoria -->
     <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2"
       tabindex="-1">
       <div class="modal-dialog modal-dialog-centered">
@@ -75,6 +81,7 @@
       </div>
     </div>
   </div>
+   <!-- Tabla donde se muestran las subcategorias existentes-->
   <div class="content__CtrlSubcategorias-body">
     <table class="display" id="myTable" cellspacing="0" width="100%">
       <thead>
@@ -85,20 +92,24 @@
         <th>Eliminar</th>
       </thead>
       <tbody>
+         <!-- ciclo para literar sobre las subcategorias y mostrarlas -->
         {% for subcategoria in subcategorias %}
         <!--El id de tr, funciona para cuando se elimina un registro no recargue la pagina, solo la tabla-->
         <tr id="fila_id_{{subcategoria.id_subcategoria}}">
           <td>{{ subcategoria.id_subcategoria }}</td>
           <td>{{ subcategoria.nombre_subcategoria }}</td>
           <td>{{ subcategoria.id_categoria.nombre_categoria }}</td>
+           <!-- icono para editar la subategoria-->
           <td> <a href="{% url 'editar_subcategoria' subcategoria.id_subcategoria %}" data-bs-toggle="modal"
               data-id="{{ subcategoria.id_subcategoria }}" data-bs-target="#modalEditar" title="Modificar"> 
               <i class="bi bi-pencil-fill"></i></a></td>
+           <!--Enlace o icono para eliminar -->
           <td> <a href="{% url 'eliminar_subcategoria' subcategoria.id_subcategoria %}" data-bs-toggle="modal"
               data-bs-target="#modalEliminar" data-id="{{ subcategoria.id_subcategoria }}" title="Eliminar"> 
               <i class="bi bi-trash-fill"></i></a></td>
         </tr>
         {% endfor %}
+         <!-- Modal que se muestra al editar una subcaategoria -->
         <div class="modal-subcategoria">
           <div class="modal fade" id="modalEditar" aria-hidden="true" aria-labelledby="modalEditarLabel" tabindex="-1">
             <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -139,6 +150,7 @@
             </div>
           </div>
         </div>
+         <!-- Modal que se muestra para confirmar, al eliminar un registro-->
         <div class="modal fade" id="modalEliminar" aria-hidden="true" aria-labelledby="modalEliminarLabel"
           tabindex="-1">
           <div class="modal-dialog modal-dialog-centered">
@@ -255,8 +267,6 @@
           if (!/^[a-zA-Z\sñáéíóúüÁÉÍÓÚÜ]+$/.test(nombreSubcategoria)) {
             errores.push('El nombre de la subcategoría puede contener solo letras, espacios, ñ y acentos.');
           }
-
-
           //Verifica si hay errores en las validaciones 
           if (errores.length > 0) {
             //Muestra los errores tipo alerta debajo del formulario

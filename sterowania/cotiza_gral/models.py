@@ -12,7 +12,7 @@ class Cotizacion(models.Model):
     nombre_empresa = models.CharField(max_length=50, blank=True, null=True, verbose_name="nombre_empresa")
     mensaje = models.CharField(max_length=360, blank=True, null=True, verbose_name="mensaje")
     estatus = models.CharField(max_length=20, default='pendiente', choices=[('pendiente', 'Pendiente'), ('atendida', 'Atendida')])
-   
+    #id_producto = models.ForeignKey(Producto, on_delete=models.CASCADE, null=True, verbose_name="producto")
 
     class Meta:
         managed = True

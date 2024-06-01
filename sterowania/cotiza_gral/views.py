@@ -9,6 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 import requests
 #from django.core.mail import send_mail
 from django.core.mail import EmailMessage
+from control_productos.models import Producto
 
 logger = logging.getLogger(__name__)
 #Función que permite validar el captcha
@@ -24,6 +25,7 @@ def validate_recaptcha(request):
     return response['success']
 def create_cotizacion(request):
     form = CotizacionForm()  # inicializacion del formulario
+    productos = Producto.objects.all()
     if request.method == 'POST':
         if validate_recaptcha(request):
             # El reCAPTCHA es válido
@@ -41,6 +43,10 @@ def create_cotizacion(request):
         else:
             # El reCAPTCHA no es válido
             messages.error(request, 'Captcha no válido. Por favor, inténtalo de nuevo.')
+    context = {
+        'form': form,
+        'productos': productos,  # Pasa los productos al contexto
+    }
     return render(request, 'cotiza_gral.html', {'form': form})
 #deshabilita la porteccion, se debe haer cuando se requiera aceptar solicitudes post desde el ajax.
 @csrf_exempt 

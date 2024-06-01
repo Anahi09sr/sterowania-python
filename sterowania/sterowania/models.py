@@ -7,7 +7,7 @@
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 
-
+#Modelos generados automaticamente por django al hacer la conexion a la base de datos mysql
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=150)
 
